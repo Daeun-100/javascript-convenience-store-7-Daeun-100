@@ -14,7 +14,11 @@
 - 프로모션 재고 차감
 - 프로모션 종류 의존성 주입
 
--> 상품 class를 모은 products class 만듬
+-> 상품 class를 모은 products 객체 만듬
+
+- produst.md 읽어오는 유틸 함수 구현
+- 읽어온 파일 한줄씩 읽는 함수 구현
+- 상품의 name별로 product만들어서 저장
 
 2. products class
 
