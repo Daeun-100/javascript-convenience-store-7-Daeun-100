@@ -1,4 +1,5 @@
 import OutputView from "./View/OutputView.js";
+import InputView from "./View/InputView.js";
 import Products from "./Product/Products.js";
 import Promotions from "./Promotion/Promotions.js";
 class App {
@@ -32,8 +33,17 @@ class App {
   }
   async run() {
     const outputView = new OutputView();
+    const inputView = new InputView();
     outputView.printGreetings();
     outputView.printProducts(this.products);
+    const input = await inputView.readProductsInput();
+    const a = await inputView.confirmAction(
+      "PURCHASE_WITHOUT_PROMOTION",
+      "콜라",
+      10
+    );
+    const b = await inputView.confirmAction("ADDITIONAL_GIFT", "사이다", 1);
+    const c = await inputView.confirmAction("MEMBERSHIP_DISCOUNT");
   }
 }
 
