@@ -21,6 +21,7 @@ describe("product class test", () => {
     normalQuantity: "10",
     promotion: {
       getName: () => "반짝할인",
+      getSetQuantity: () => 3,
     },
   });
 
@@ -32,6 +33,13 @@ describe("product class test", () => {
     expect(product.isPromotionQuantityEnough(4)).toBe(true);
     expect(product.isNormalQuantityEnough(9)).toBe(true);
   });
+
+  test("프로모션 미적용 상품 개수 구하기", () => {
+    expect(product.getNonPromotionQuantity(3)).toBe(0);
+    expect(product.getNonPromotionQuantity(5)).toBe(2);
+    expect(product.getNonPromotionQuantity(7)).toBe(4);
+  });
+
   test("프로모션 재고 차감", () => {
     product.substractPromotionQuantity(3);
     expect(product.isPromotionQuantityEnough(2)).toBe(true);

@@ -61,11 +61,8 @@ export default class Product {
     return false;
   }
 
-  //프로모션 할인 적용안되는 개수
+  //프로모션 적용안되는 개수
   getNonPromotionQuantity(quantity) {
-    if (this.#promotionQuantity >= quantity) {
-      return 0;
-    }
     const setQuantity = this.#promotion.getSetQuantity();
     const promotionQuantity =
       setQuantity * Math.floor(this.#promotionQuantity / setQuantity);
@@ -74,7 +71,15 @@ export default class Product {
 
   //프로모션 상품 수량을 적게 가져온경우
   isAdditionalGiftEligible(quantity) {
+    //프로모션 상품 수량이 0인 경우 불가능
+    if (this.#promotionQuantity === 0) {
+      return false;
+    }
     return this.#promotion.isAdditionalGiftEligible(quantity);
+  }
+
+  getGiftQuantity(quantity) {
+    return this.#promotion.getGiftQuantity(quantity);
   }
 
   getName() {
