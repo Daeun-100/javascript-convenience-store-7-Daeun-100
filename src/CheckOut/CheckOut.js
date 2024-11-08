@@ -34,15 +34,25 @@ export default class CheckOut {
   promoteProcessSingleItem(inputItem) {
     const product = this.#Products.getProduct(inputItem.name);
     const name = product.getName();
-    //프로모션 적용 안되는 개수 저장
-    const nonAppliedPromotionQuantity = product.getNonAppliedPromotionQuantity(
-      inputItem.quantity
-    );
+    // TODO: 프로모션이 적용 안되는 기간이면 어디서 처리하지? 일단 checktout에서 처리해보기
+    //프로모션이 없거나 기간이 지났으면 프로모션 적용 아예 안됨
+    let nonAppliedPromotionQuantity;
+    let giftQuantity;
+    if (product.isPromotionAvailable(new Date("2024-12-31"))) {
+      //프로모션 적용 안되는 개수 저장
+      nonAppliedPromotionQuantity = product.getNonAppliedPromotionQuantity(
+        inputItem.quantity
+      );
+      //증정하는 제품 수량 저장
+      giftQuantity = product.getGiftQuantity(inputItem.quantity);
+    } else {
+      nonAppliedPromotionQuantity = inputItem.quantity;
+      giftQuantity = 0;
+    }
     this.#discountInfo.nonAppliedPromotionQuantity[name] =
       nonAppliedPromotionQuantity;
-    //증정하는 제품 수량 저장
-    const giftQuantity = product.getGiftQuantity(inputItem.quantity);
     this.#discountInfo.giftQuantity[name] = giftQuantity;
+
     if (
       product.isPromotionAvailable() &&
       !product.isPromotionQuantityEnough(inputItem.quantity)

@@ -50,8 +50,8 @@ export default class Product {
     this.#promotionQuantity -= number;
   }
 
-  isPromotionAvailable() {
-    if (this.#promotion && this.#promotion.isPromotionAvailable()) {
+  isPromotionAvailable(date) {
+    if (this.#promotion && this.#promotion.isAvailable(date)) {
       return true;
     }
     return false;

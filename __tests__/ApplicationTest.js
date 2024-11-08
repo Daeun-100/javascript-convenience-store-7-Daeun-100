@@ -132,6 +132,7 @@ describe("편의점", () => {
 
   test("여러 개의 일반 상품 구매", async () => {
     await run({
+      //비타민 워터 4500원, 물 1000원, 정식도시락 12800원
       inputs: ["[비타민워터-3],[물-2],[정식도시락-2]", "N", "N"],
       expectedIgnoringWhiteSpaces: ["내실돈18,300"],
     });
