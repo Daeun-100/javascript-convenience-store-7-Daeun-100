@@ -19,26 +19,33 @@ describe("product class test", () => {
     price: "1000",
     promotionQuantity: "5",
     normalQuantity: "10",
-    promotion: "반짝할인",
+    promotion: {
+      getName: () => "반짝할인",
+    },
   });
 
   test("재고 보다 상품을 많이 들고왔을 경우", () => {
-    expect(product.isPromotionQuantityAvailable(6)).toBe(false);
-    expect(product.isNormalQuantityAvailable(11)).toBe(false);
+    expect(product.isPromotionQuantityEnough(6)).toBe(false);
+    expect(product.isNormalQuantityEnough(11)).toBe(false);
   });
   test("재고 보다 상품을 적게 들고왔을 경우", () => {
-    expect(product.isPromotionQuantityAvailable(4)).toBe(true);
-    expect(product.isNormalQuantityAvailable(9)).toBe(true);
+    expect(product.isPromotionQuantityEnough(4)).toBe(true);
+    expect(product.isNormalQuantityEnough(9)).toBe(true);
   });
   test("프로모션 재고 차감", () => {
     product.substractPromotionQuantity(3);
-    expect(product.isPromotionQuantityAvailable(2)).toBe(true);
-    expect(product.isPromotionQuantityAvailable(3)).toBe(false);
+    expect(product.isPromotionQuantityEnough(2)).toBe(true);
+    expect(product.isPromotionQuantityEnough(3)).toBe(false);
   });
   test("일반 재고 차감", () => {
     product.substractNormalQuantity(4);
-    expect(product.isNormalQuantityAvailable(6)).toBe(true);
-    expect(product.isNormalQuantityAvailable(7)).toBe(false);
+    expect(product.isNormalQuantityEnough(6)).toBe(true);
+    expect(product.isNormalQuantityEnough(7)).toBe(false);
+  });
+  //promotionquantity:2, normalQuantity:6
+  test("상품 구매", () => {
+    product.purchaseProduct(7);
+    expect(product.toString()).toBe("비타민워터,1000,1,0,반짝할인");
   });
 });
 

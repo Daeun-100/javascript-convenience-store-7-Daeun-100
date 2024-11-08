@@ -19,12 +19,23 @@ export default class Product {
     this.#promotion = promotion;
   }
 
-  isNormalQuantityAvailable(number) {
+  isNormalQuantityEnough(number) {
     return this.#normalQuantity >= number;
   }
 
-  isPromotionQuantityAvailable(number) {
+  isPromotionQuantityEnough(number) {
     return this.#promotionQuantity >= number;
+  }
+
+  purchaseProduct(quantity) {
+    let restQuantity = quantity;
+    if (this.#promotionQuantity >= quantity) {
+      this.substractPromotionQuantity(quantity);
+      return;
+    }
+    restQuantity = quantity - this.#promotionQuantity;
+    this.substractPromotionQuantity(this.#promotionQuantity);
+    this.substractNormalQuantity(restQuantity);
   }
 
   substractNormalQuantity(number) {
@@ -35,8 +46,43 @@ export default class Product {
     this.#promotionQuantity -= number;
   }
 
+  isQuantityEnough(quantity) {
+    return this.#normalQuantity + this.#promotionQuantity >= quantity;
+  }
+
+  isPromotionQuantityEnough(quantity) {
+    return this.#promotionQuantity >= quantity;
+  }
+
+  isPromotionAvailable() {
+    if (this.#promotion && this.#promotion.isPromotionAvailable()) {
+      return true;
+    }
+    return false;
+  }
+
+  //프로모션 할인 적용안되는 개수
+  getNonPromotionQuantity(quantity) {
+    if (this.#promotionQuantity >= quantity) {
+      return 0;
+    }
+    const setQuantity = this.#promotion.getSetQuantity();
+    const promotionQuantity =
+      setQuantity * Math.floor(this.#promotionQuantity / setQuantity);
+    return quantity - promotionQuantity;
+  }
+
+  //프로모션 상품 수량을 적게 가져온경우
+  isAdditionalGiftEligible(quantity) {
+    return this.#promotion.isAdditionalGiftEligible(quantity);
+  }
+
   getName() {
     return this.#name;
+  }
+
+  getPromotionQuantity() {
+    return this.#promotionQuantity;
   }
 
   toString() {

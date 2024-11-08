@@ -28,6 +28,10 @@ export default class Promotion {
     return rest === this.#buy;
   }
 
+  getSetQuantity() {
+    return this.#buy + this.#get;
+  }
+
   getName() {
     return this.#name;
   }
