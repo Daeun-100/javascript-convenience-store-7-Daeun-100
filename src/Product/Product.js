@@ -82,12 +82,11 @@ export default class Product {
     return this.#promotion.getGiftQuantity(quantity);
   }
 
+  getTotalAmount(quantity) {
+    return this.#price * quantity;
+  }
   getName() {
     return this.#name;
-  }
-
-  getPromotionQuantity() {
-    return this.#promotionQuantity;
   }
 
   toString() {

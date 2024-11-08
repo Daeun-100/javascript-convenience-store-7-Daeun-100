@@ -31,7 +31,7 @@ export default class CheckOut {
   //제품의 재고 확인
   //재고가 충분하면 재고를 줄임
   //하나의 inputitem에 대해서만 처리
-  checkOutProcessSingleItem(inputItem) {
+  promoteProcessSingleItem(inputItem) {
     const product = this.#Products.getProduct(inputItem.name);
     const name = product.getName();
     const nonPromotionQuantity = product.getNonPromotionQuantity(
@@ -80,5 +80,19 @@ export default class CheckOut {
   }
   //멤버쉽 할인 적용
   //selectedItems=[{name:콜라, quantity:10}, {name:사이다, quantity:3}]
-  membershipDiscount() {}
+  membershipDiscount() {
+    let nonPromotionTotalAmount = 0;
+    this.#selectedItems.forEach((inputItem) => {
+      const product = this.#Products.getProduct(inputItem.name);
+      const nonPromotionQuantity =
+        this.#discountInfo.nonPromotionQuantity[inputItem.name];
+      nonPromotionTotalAmount += product.getTotalAmount(nonPromotionQuantity);
+    });
+    let disCountAmount = nonPromotionTotalAmount * 0.3;
+    if (disCountAmount > 8000) {
+      disCountAmount = 8000;
+    }
+    this.#discountInfo.membershipDiscount = disCountAmount;
+    return disCountAmount;
+  }
 }
