@@ -13,12 +13,13 @@ const mockPromotions = {
     return { getName: () => null };
   }),
 };
+
 describe("product class test", () => {
   const product = new Product({
     name: "비타민워터",
-    price: "1000",
-    promotionQuantity: "5",
-    normalQuantity: "10",
+    price: 1000,
+    promotionQuantity: 5,
+    normalQuantity: 10,
     promotion: {
       getName: () => "반짝할인",
       getSetQuantity: () => 3,
@@ -35,9 +36,9 @@ describe("product class test", () => {
   });
 
   test("프로모션 미적용 상품 개수 구하기", () => {
-    expect(product.getNonPromotionQuantity(3)).toBe(0);
-    expect(product.getNonPromotionQuantity(5)).toBe(2);
-    expect(product.getNonPromotionQuantity(7)).toBe(4);
+    expect(product.getNonAppliedPromotionQuantity(3)).toBe(0);
+    expect(product.getNonAppliedPromotionQuantity(5)).toBe(2);
+    expect(product.getNonAppliedPromotionQuantity(7)).toBe(4);
   });
 
   test("프로모션 재고 차감", () => {

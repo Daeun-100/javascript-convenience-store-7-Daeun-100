@@ -19,6 +19,10 @@ export default class Product {
     this.#promotion = promotion;
   }
 
+  isQuantityEnough(quantity) {
+    return this.#normalQuantity + this.#promotionQuantity >= quantity;
+  }
+
   isNormalQuantityEnough(number) {
     return this.#normalQuantity >= number;
   }
@@ -46,14 +50,6 @@ export default class Product {
     this.#promotionQuantity -= number;
   }
 
-  isQuantityEnough(quantity) {
-    return this.#normalQuantity + this.#promotionQuantity >= quantity;
-  }
-
-  isPromotionQuantityEnough(quantity) {
-    return this.#promotionQuantity >= quantity;
-  }
-
   isPromotionAvailable() {
     if (this.#promotion && this.#promotion.isPromotionAvailable()) {
       return true;
@@ -62,13 +58,20 @@ export default class Product {
   }
 
   //프로모션 적용안되는 개수
-  getNonPromotionQuantity(quantity) {
-    const setQuantity = this.#promotion.getSetQuantity();
-    const promotionQuantity =
-      setQuantity * Math.floor(this.#promotionQuantity / setQuantity);
-    return quantity - promotionQuantity;
+  getNonAppliedPromotionQuantity(quantity) {
+    return quantity - this.getAppliedPromotionQuantity(quantity);
   }
 
+  getAppliedPromotionQuantity(quantity) {
+    const setQuantity = this.#promotion.getSetQuantity();
+    let tempQuantity = quantity;
+    if (this.#promotionQuantity < quantity) {
+      tempQuantity = this.#promotionQuantity;
+    }
+    const appliedPromotionQuantity =
+      setQuantity * Math.floor(tempQuantity / setQuantity);
+    return appliedPromotionQuantity;
+  }
   //프로모션 상품 수량을 적게 가져온경우
   isAdditionalGiftEligible(quantity) {
     //프로모션 상품 수량이 0인 경우 불가능
@@ -79,7 +82,8 @@ export default class Product {
   }
 
   getGiftQuantity(quantity) {
-    return this.#promotion.getGiftQuantity(quantity);
+    const appliedPromotionQuantity = this.getAppliedPromotionQuantity();
+    return this.#promotion.getGiftQuantity(appliedPromotionQuantity);
   }
 
   getTotalAmount(quantity) {
