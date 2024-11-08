@@ -23,6 +23,7 @@ describe("product class test", () => {
     promotion: {
       getName: () => "반짝할인",
       getSetQuantity: () => 3,
+      getGiftQuantity: (quantity) => 1 * Math.floor(quantity / 3),
     },
   });
 
@@ -40,7 +41,11 @@ describe("product class test", () => {
     expect(product.getNonAppliedPromotionQuantity(5)).toBe(2);
     expect(product.getNonAppliedPromotionQuantity(7)).toBe(4);
   });
-
+  test("증정 상품 개수 구하기", () => {
+    expect(product.getGiftQuantity(3)).toBe(1);
+    expect(product.getGiftQuantity(5)).toBe(1);
+    expect(product.getGiftQuantity(15)).toBe(1);
+  });
   test("프로모션 재고 차감", () => {
     product.substractPromotionQuantity(3);
     expect(product.isPromotionQuantityEnough(2)).toBe(true);

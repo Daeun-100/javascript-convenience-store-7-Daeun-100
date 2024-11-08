@@ -81,8 +81,8 @@ export default class Product {
     return this.#promotion.isAdditionalGiftEligible(quantity);
   }
 
-  getGiftQuantity() {
-    const appliedPromotionQuantity = this.getAppliedPromotionQuantity();
+  getGiftQuantity(quantity) {
+    const appliedPromotionQuantity = this.getAppliedPromotionQuantity(quantity);
     return this.#promotion.getGiftQuantity(appliedPromotionQuantity);
   }
 
