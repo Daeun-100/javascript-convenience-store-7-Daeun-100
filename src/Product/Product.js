@@ -5,7 +5,13 @@ export default class Product {
   #promotionQuantity;
   #promotion;
 
-  constructor(name, price, { normalQuantity, promotionQuantity }, promotion) {
+  constructor(
+    name,
+    price,
+    normalQuantity = 0,
+    promotionQuantity = 0,
+    promotion = null
+  ) {
     //name과 price, promotion을 여기서 정의해야 할까?
     this.#name = name;
     this.#price = price;
@@ -28,5 +34,8 @@ export default class Product {
 
   substractPromotionQuantity(number) {
     this.#promotionQuantity -= number;
+  }
+  getName() {
+    return this.#name;
   }
 }
