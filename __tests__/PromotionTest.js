@@ -14,8 +14,22 @@ describe("Promotion test", () => {
     expect(promotion.isAvailable(new Date("2021-09-30"))).toBe(true);
     expect(promotion.isAvailable(new Date("2021-10-01"))).toBe(false);
   });
-  test("buyNgetM 테스트", () => {
-    expect(promotion.buyNgetM()).toEqual({ buy: 1, get: 1 });
+  const promotion21 = new Promotion({
+    name: "Buy 2 Get 1",
+    buy: 2,
+    get: 1,
+    start_date: "2021-09-01",
+    end_date: "2021-09-30",
+  });
+  test("증정 수량 게산", () => {
+    expect(promotion21.getGiftQuantity(2)).toBe(0);
+    expect(promotion21.getGiftQuantity(3)).toBe(1);
+    expect(promotion21.getGiftQuantity(7)).toBe(2);
+  });
+  test("추가 증정 가능한지 확인", () => {
+    expect(promotion21.isGiftEligible(2)).toBe(true);
+    expect(promotion21.isGiftEligible(3)).toBe(false);
+    expect(promotion21.isGiftEligible(5)).toBe(true);
   });
 });
 

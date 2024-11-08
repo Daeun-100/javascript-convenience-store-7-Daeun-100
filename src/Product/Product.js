@@ -12,7 +12,6 @@ export default class Product {
     promotionQuantity = 0,
     promotion = null,
   }) {
-    //name과 price, promotion을 여기서 정의해야 할까?
     this.#name = name;
     this.#price = price;
     this.#normalQuantity = normalQuantity;
@@ -35,6 +34,7 @@ export default class Product {
   substractPromotionQuantity(number) {
     this.#promotionQuantity -= number;
   }
+
   getName() {
     return this.#name;
   }

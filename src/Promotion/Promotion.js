@@ -19,8 +19,13 @@ export default class Promotion {
     );
   }
 
-  buyNgetM(buy, get) {
-    return { buy: this.#buy, get: this.#get };
+  getGiftQuantity(quantity) {
+    return this.#get * Math.floor(quantity / (this.#buy + this.#get));
+  }
+
+  isAdditionalGiftEligible(quantity) {
+    const rest = quantity % (this.#buy + this.#get);
+    return rest === this.#buy;
   }
 
   getName() {
