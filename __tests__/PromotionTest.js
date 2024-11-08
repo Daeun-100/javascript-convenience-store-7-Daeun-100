@@ -27,9 +27,9 @@ describe("Promotion test", () => {
     expect(promotion21.getGiftQuantity(7)).toBe(2);
   });
   test("추가 증정 가능한지 확인", () => {
-    expect(promotion21.isGiftEligible(2)).toBe(true);
-    expect(promotion21.isGiftEligible(3)).toBe(false);
-    expect(promotion21.isGiftEligible(5)).toBe(true);
+    expect(promotion21.isAdditionalGiftEligible(2)).toBe(true);
+    expect(promotion21.isAdditionalGiftEligible(3)).toBe(false);
+    expect(promotion21.isAdditionalGiftEligible(5)).toBe(true);
   });
 });
 

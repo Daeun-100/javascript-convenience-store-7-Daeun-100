@@ -1,5 +1,6 @@
 import readTextFile from "../src/utils/readTextFile.js";
 import readLine from "../src/utils/readLine.js";
+import parseInputString from "../src/utils/parseInputString.js";
 import { Console } from "@woowacourse/mission-utils";
 
 describe("Util", () => {
@@ -9,5 +10,12 @@ describe("Util", () => {
     expect(readLine(text, 2)).toBe("콜라,2000,10,탄산2+1");
     expect(readLine(text, 3)).toBe("콜라,2000,10,null");
     expect(readLine(text, 100)).toBe(null);
+  });
+  test("inputText를 객체를 담은 배열로 변환", () => {
+    const input = "[콜라-10],[사이다-3]";
+    expect(parseInputString(input)).toEqual([
+      { name: "콜라", quantity: 10 },
+      { name: "사이다", quantity: 3 },
+    ]);
   });
 });
