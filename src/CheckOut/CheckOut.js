@@ -95,4 +95,26 @@ export default class CheckOut {
     this.#discountInfo.membershipDiscount = disCountAmount;
     return disCountAmount;
   }
+
+  reciept() {
+    // 총구매액: 구매한 상품의 총 수량과 총 금액
+    const totalAmount = this.#selectedItems.reduce((acc, inputItem) => {
+      const product = this.#Products.getProduct(inputItem.name);
+      const Amount = product.getTotalAmount(inputItem.quantity);
+      return acc + Amount;
+    }, 0);
+    // 행사할인: 프로모션에 의해 할인된 금액
+    const promotionDiscount = Object.keys(
+      this.#discountInfo.giftQuantity
+    ).reduce((acc, name) => {
+      const product = this.#Products.getProduct(name);
+      const giftQuantity = this.#discountInfo.giftQuantity[name];
+      const Amount = product.getTotalAmount(giftQuantity);
+      return acc + Amount;
+    }, 0);
+    // 멤버십할인: 멤버십에 의해 추가로 할인된 금액
+    const membershipDiscount = this.membershipDiscount();
+    // 내실돈: 최종 결제 금액
+    const finalAmount = totalAmount - promotionDiscount - membershipDiscount;
+  }
 }
