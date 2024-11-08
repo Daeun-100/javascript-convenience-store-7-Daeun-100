@@ -74,14 +74,14 @@ export default class Product {
   }
   //프로모션 상품 수량을 적게 가져온경우
   isAdditionalGiftEligible(quantity) {
-    //프로모션 상품 수량이 0인 경우 불가능
-    if (this.#promotionQuantity === 0) {
+    //줄 수 있는 프로모션 수량이 없는 경우
+    if (this.#promotionQuantity - quantity <= 0) {
       return false;
     }
     return this.#promotion.isAdditionalGiftEligible(quantity);
   }
 
-  getGiftQuantity(quantity) {
+  getGiftQuantity() {
     const appliedPromotionQuantity = this.getAppliedPromotionQuantity();
     return this.#promotion.getGiftQuantity(appliedPromotionQuantity);
   }
