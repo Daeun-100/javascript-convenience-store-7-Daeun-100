@@ -1,8 +1,10 @@
+import { getProductFormArr } from "./generateProductForm";
+import Product from "./Product";
 export default class Products {
   #products;
 
-  constructor() {
-    this.#products = [];
+  constructor(productsFormArr) {
+    this.#products = this.generateProducts(productsFormArr);
   }
 
   addProduct(product) {
@@ -11,5 +13,13 @@ export default class Products {
 
   isProductExist(name) {
     return this.#products.some((product) => product.getName() === name);
+  }
+
+  generateProducts(productsFormArr) {
+    return productsFormArr.map((productForm) => new Product(productForm));
+  }
+
+  toString() {
+    return this.#products.map((product) => product.toString());
   }
 }

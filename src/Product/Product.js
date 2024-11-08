@@ -5,13 +5,13 @@ export default class Product {
   #promotionQuantity;
   #promotion;
 
-  constructor(
+  constructor({
     name,
     price,
     normalQuantity = 0,
     promotionQuantity = 0,
-    promotion = null
-  ) {
+    promotion = null,
+  }) {
     //name과 price, promotion을 여기서 정의해야 할까?
     this.#name = name;
     this.#price = price;
@@ -37,5 +37,11 @@ export default class Product {
   }
   getName() {
     return this.#name;
+  }
+
+  toString() {
+    return `${this.#name},${this.#price},${this.#normalQuantity},${
+      this.#promotionQuantity
+    },${this.#promotion}`;
   }
 }

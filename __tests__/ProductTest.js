@@ -1,11 +1,18 @@
 import Product from "../src/Product/Product.js";
+import Products from "../src/Product/Products.js";
 import {
   getProductFormArr,
   generateProductForm,
 } from "../src/Product/generateProductForm.js";
 
 describe("product class test", () => {
-  const product = new Product("비타민워터", 1000, 10, 5, null);
+  const product = new Product({
+    name: "비타민워터",
+    price: "1000",
+    promotionQuantity: "5",
+    normalQuantity: "10",
+    promotion: "반짝할인",
+  });
 
   test("재고 보다 상품을 많이 들고왔을 경우", () => {
     expect(product.isPromotionQuantityAvailable(6)).toBe(false);
@@ -50,6 +57,31 @@ describe("product 정보 가공 테스트", () => {
         promotionQuantity: "5",
         promotion: "반짝할인",
       },
+    ]);
+  });
+});
+
+describe("products class test", () => {
+  test("products 생성 테스트", () => {
+    const productsFormArr = [
+      {
+        name: "비타민워터",
+        price: "1000",
+        normalQuantity: "10",
+        promotionQuantity: "5",
+        promotion: "반짝할인",
+      },
+      {
+        name: "불닭볶음면",
+        price: "2000",
+        normalQuantity: "4",
+        promotion: null,
+      },
+    ];
+    const products = new Products(productsFormArr);
+    expect(products.toString()).toEqual([
+      "비타민워터,1000,10,5,반짝할인",
+      "불닭볶음면,2000,4,0,null",
     ]);
   });
 });
