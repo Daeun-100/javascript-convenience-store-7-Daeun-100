@@ -1,5 +1,4 @@
-import { getProductFormsArr } from "./getProductsForm";
-import Product from "./Product";
+import Product from "./Product.js";
 
 export default class Products {
   #products;
@@ -25,6 +24,10 @@ export default class Products {
       const productData = { ...productForm, promotion };
       return new Product(productData);
     });
+  }
+
+  getFormattedProducts() {
+    return this.#products.map((product) => product.getFormattedProduct());
   }
 
   toString() {

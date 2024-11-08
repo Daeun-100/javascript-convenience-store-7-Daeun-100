@@ -93,6 +93,29 @@ export default class Product {
     return this.#name;
   }
 
+  quantityLabel(quantity) {
+    if (quantity === 0) {
+      return "재고 없음";
+    }
+    return `${quantity}개`;
+  }
+
+  getFormattedProduct() {
+    if (!this.#promotion) {
+      return `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
+        this.#normalQuantity
+      )}`;
+    }
+    const promotionInfo = `- ${this.#name} ${
+      this.#price
+    }원 ${this.quantityLabel(
+      this.#promotionQuantity
+    )} ${this.#promotion.getName()}`;
+    const normalInfo = `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
+      this.#normalQuantity
+    )}`;
+    return `${promotionInfo}\n${normalInfo}`;
+  }
   toString() {
     return `${this.#name},${this.#price},${this.#normalQuantity},${
       this.#promotionQuantity
