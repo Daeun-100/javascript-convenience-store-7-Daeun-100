@@ -1,6 +1,6 @@
 import Promotion from "../src/Promotion/Promotion.js";
 import Promotions from "../src/Promotion/Promotions.js";
-import generatePromotionsArr from "../src/Promotion/generatePromotionArr.js";
+import getPromotionsArr from "../src/Promotion/getPromotionsArr.js";
 describe("Promotion test", () => {
   const promotion = new Promotion({
     name: "반짝할인",
@@ -22,8 +22,8 @@ describe("Promotion test", () => {
 describe("Promotions test", () => {
   const promotionsText =
     "name,buy,get,start_date,end_date\n 반짝할인,1,1,2021-09-01,2021-09-30\n 추천행사,2,1,2021-09-01,2021-09-30";
-  const promotionsArr = generatePromotionsArr(promotionsText);
-  test(generatePromotionsArr, () => {
+  const promotionsArr = getPromotionsArr(promotionsText);
+  test("getPromotionsArr", () => {
     expect(promotionsArr).toEqual([
       {
         name: "반짝할인",
@@ -41,11 +41,16 @@ describe("Promotions test", () => {
       },
     ]);
   });
+  const promotions = new Promotions(promotionsArr);
   test("Promotions 생성", () => {
-    const promotions = new Promotions(promotionsArr);
     expect(promotions.toString()).toEqual([
       "반짝할인,buy:1,get:1,2021-09-01,2021-09-30",
       "추천행사,buy:2,get:1,2021-09-01,2021-09-30",
     ]);
+  });
+  test("프로모션 매핑 테스트", () => {
+    expect(promotions.map("반짝할인").toString()).toBe(
+      "반짝할인,buy:1,get:1,2021-09-01,2021-09-30"
+    );
   });
 });

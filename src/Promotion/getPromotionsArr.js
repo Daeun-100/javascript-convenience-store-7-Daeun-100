@@ -1,7 +1,7 @@
 import readLine from "../utils/readLine";
 import lineToArray from "../utils/lineToArray";
 
-export default function generatePromotionsArr(promotionsText) {
+export default function getPromotionsArr(promotionsText) {
   const promotionsArr = [];
 
   let i = 2;

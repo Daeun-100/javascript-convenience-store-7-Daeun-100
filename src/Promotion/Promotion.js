@@ -23,6 +23,10 @@ export default class Promotion {
     return { buy: this.#buy, get: this.#get };
   }
 
+  getName() {
+    return this.#name;
+  }
+
   toString() {
     return `${this.#name},buy:${this.#buy},get:${this.#get},${
       this.#start_date

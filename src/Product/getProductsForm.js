@@ -2,6 +2,7 @@ import readTextFile from "../utils/readTextFile.js";
 import readLine from "../utils/readLine.js";
 import lineToArray from "../utils/lineToArray.js";
 import selectNotNull from "../utils/selectNotNull.js";
+import Promotions from "../Promotion/Promotions.js";
 
 export function generateProductForm(line) {
   let [name, price, quantity, promotion] = lineToArray(line);
@@ -9,22 +10,22 @@ export function generateProductForm(line) {
   if (promotion === "null") {
     productForm = {
       name,
-      price,
-      normalQuantity: quantity,
+      price: Number(price),
+      normalQuantity: Number(quantity),
       promotion,
     };
   } else {
     productForm = {
       name,
-      price,
-      promotionQuantity: quantity,
+      price: Number(price),
+      promotionQuantity: Number(quantity),
       promotion,
     };
   }
   return productForm;
 }
 
-export function getProductFormArr(productText) {
+export function getProductFormsArr(productText) {
   const productFormArr = [];
   let i = 2;
   let line = readLine(productText, i);

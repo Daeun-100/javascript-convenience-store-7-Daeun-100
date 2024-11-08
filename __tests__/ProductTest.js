@@ -1,10 +1,18 @@
 import Product from "../src/Product/Product.js";
 import Products from "../src/Product/Products.js";
 import {
-  getProductFormArr,
+  getProductFormsArr,
   generateProductForm,
-} from "../src/Product/generateProductForm.js";
+} from "../src/Product/getProductsForm.js";
 
+const mockPromotions = {
+  map: jest.fn((name) => {
+    if (name === "반짝할인") {
+      return { getName: () => "반짝할인" };
+    }
+    return { getName: () => null };
+  }),
+};
 describe("product class test", () => {
   const product = new Product({
     name: "비타민워터",
@@ -40,21 +48,21 @@ describe("product 정보 가공 테스트", () => {
     const productForm = generateProductForm(line);
     expect(productForm).toEqual({
       name: "비타민워터",
-      price: "1000",
-      promotionQuantity: "5",
+      price: 1000,
+      promotionQuantity: 5,
       promotion: "반짝할인",
     });
   });
   test("productFormArr 생성 테스트", () => {
     const productText =
       "name,price,quantity,promotion\n 비타민워터,1000,5,반짝할인\n  비타민워터,1000,10,null";
-    const productForm = getProductFormArr(productText);
+    const productForm = getProductFormsArr(productText);
     expect(productForm).toEqual([
       {
         name: "비타민워터",
-        price: "1000",
-        normalQuantity: "10",
-        promotionQuantity: "5",
+        price: 1000,
+        normalQuantity: 10,
+        promotionQuantity: 5,
         promotion: "반짝할인",
       },
     ]);
@@ -65,19 +73,19 @@ describe("products class test", () => {
   const productsFormArr = [
     {
       name: "비타민워터",
-      price: "1000",
-      normalQuantity: "10",
-      promotionQuantity: "5",
+      price: 1000,
+      normalQuantity: 10,
+      promotionQuantity: 5,
       promotion: "반짝할인",
     },
     {
       name: "불닭볶음면",
-      price: "2000",
-      normalQuantity: "4",
+      price: 2000,
+      normalQuantity: 4,
       promotion: null,
     },
   ];
-  const products = new Products(productsFormArr);
+  const products = new Products(productsFormArr, mockPromotions);
   test("products 생성 테스트", () => {
     expect(products.toString()).toEqual([
       "비타민워터,1000,10,5,반짝할인",

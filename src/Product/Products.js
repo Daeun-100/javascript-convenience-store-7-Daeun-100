@@ -1,10 +1,11 @@
-import { getProductFormArr } from "./generateProductForm";
+import { getProductFormsArr } from "./getProductsForm";
 import Product from "./Product";
+
 export default class Products {
   #products;
 
-  constructor(productsFormArr) {
-    this.#products = this.#generateProducts(productsFormArr);
+  constructor(productsFormArr, promotions) {
+    this.#products = this.#generateProducts(productsFormArr, promotions);
   }
 
   isProductExist(name) {
@@ -18,8 +19,12 @@ export default class Products {
     return null;
   }
 
-  #generateProducts(productsFormArr) {
-    return productsFormArr.map((productForm) => new Product(productForm));
+  #generateProducts(productsFormArr, promotions) {
+    return productsFormArr.map((productForm) => {
+      const promotion = promotions.map(productForm.promotion);
+      const productData = { ...productForm, promotion };
+      return new Product(productData);
+    });
   }
 
   toString() {

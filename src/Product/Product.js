@@ -42,6 +42,6 @@ export default class Product {
   toString() {
     return `${this.#name},${this.#price},${this.#normalQuantity},${
       this.#promotionQuantity
-    },${this.#promotion}`;
+    },${this.#promotion.getName()}`;
   }
 }
