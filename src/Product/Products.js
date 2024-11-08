@@ -4,18 +4,21 @@ export default class Products {
   #products;
 
   constructor(productsFormArr) {
-    this.#products = this.generateProducts(productsFormArr);
-  }
-
-  addProduct(product) {
-    this.#products.push(product);
+    this.#products = this.#generateProducts(productsFormArr);
   }
 
   isProductExist(name) {
     return this.#products.some((product) => product.getName() === name);
   }
 
-  generateProducts(productsFormArr) {
+  getProduct(name) {
+    if (this.isProductExist(name)) {
+      return this.#products.find((product) => product.getName() === name);
+    }
+    return null;
+  }
+
+  #generateProducts(productsFormArr) {
     return productsFormArr.map((productForm) => new Product(productForm));
   }
 

@@ -62,26 +62,36 @@ describe("product 정보 가공 테스트", () => {
 });
 
 describe("products class test", () => {
+  const productsFormArr = [
+    {
+      name: "비타민워터",
+      price: "1000",
+      normalQuantity: "10",
+      promotionQuantity: "5",
+      promotion: "반짝할인",
+    },
+    {
+      name: "불닭볶음면",
+      price: "2000",
+      normalQuantity: "4",
+      promotion: null,
+    },
+  ];
+  const products = new Products(productsFormArr);
   test("products 생성 테스트", () => {
-    const productsFormArr = [
-      {
-        name: "비타민워터",
-        price: "1000",
-        normalQuantity: "10",
-        promotionQuantity: "5",
-        promotion: "반짝할인",
-      },
-      {
-        name: "불닭볶음면",
-        price: "2000",
-        normalQuantity: "4",
-        promotion: null,
-      },
-    ];
-    const products = new Products(productsFormArr);
     expect(products.toString()).toEqual([
       "비타민워터,1000,10,5,반짝할인",
       "불닭볶음면,2000,4,0,null",
     ]);
+  });
+  test("상품이 존재하는지 확인", () => {
+    expect(products.isProductExist("비타민워터")).toBe(true);
+    expect(products.isProductExist("콜라")).toBe(false);
+  });
+  test("상품 정보 가져오기", () => {
+    expect(products.getProduct("비타민워터").toString()).toBe(
+      "비타민워터,1000,10,5,반짝할인"
+    );
+    expect(products.getProduct("콜라")).toBe(null);
   });
 });
