@@ -36,6 +36,8 @@
 
 -> 프로모션 class를 모은 promitions 객체 만듬
 
+- 프로모션 name별로 pomotion 만들어서 저장
+
 3. 멤버십 class
 
 - 30% 할인된 금액 반환

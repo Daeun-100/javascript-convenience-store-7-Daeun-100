@@ -9,15 +9,23 @@ export default class Promotion {
     this.#name = name;
     this.#buy = buy;
     this.#get = get;
-    this.#start_date = new Date(start_date);
-    this.#end_date = new Date(end_date);
+    this.#start_date = start_date;
+    this.#end_date = end_date;
   }
 
   isAvailable(date) {
-    return this.#start_date <= date && date <= this.#end_date;
+    return (
+      new Date(this.#start_date) <= date && date <= new Date(this.#end_date)
+    );
   }
 
   buyNgetM(buy, get) {
     return { buy: this.#buy, get: this.#get };
+  }
+
+  toString() {
+    return `${this.#name},buy:${this.#buy},get:${this.#get},${
+      this.#start_date
+    },${this.#end_date}`;
   }
 }
