@@ -12,22 +12,28 @@ class App {
   constructor() {}
   async run() {
     const fileHandler = new FileHandler();
+    // 1. 파일 읽기
     const productsText = await fileHandler.readTextFile("./public/products.md");
     const promotionsText = await fileHandler.readTextFile(
       "./public/promotions.md"
     );
 
+    // 2. 데이터 파싱 및 객체 생성
     const productsFormsArr = getProductFormsArr(productsText);
     const promotionsArr = getPromotionsArr(promotionsText);
     const promotions = new Promotions(promotionsArr);
     const products = new Products(productsFormsArr, promotions);
     const outputView = new OutputView();
     const inputView = new InputView(products);
-    outputView.printGreetings();
-    outputView.printProducts(products);
-    const input = await inputView.readProductsInput();
-    const checkOut = new CheckOut(input, products);
-    await checkOut.checkout();
+    // 3. 출력 및 첫 구매 진행
+    let hasAdditionalPurchase;
+    do {
+      outputView.printGreetings();
+      outputView.printProducts(products);
+      const input = await inputView.readProductsInput();
+      const checkOut = new CheckOut(input, products);
+      hasAdditionalPurchase = await checkOut.checkout();
+    } while (hasAdditionalPurchase === "Y");
   }
 }
 

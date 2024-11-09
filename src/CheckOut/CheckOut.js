@@ -37,12 +37,17 @@ export default class CheckOut {
     for (const inputItem of this.#selectedItems) {
       await this.promoteProcessSingleItem(inputItem);
     }
-    const yesOrNo = await this.#inputView.confirmAction("MEMBERSHIP_DISCOUNT");
-    if (yesOrNo === "Y") {
+    const hasMembershipDiscount = await this.#inputView.confirmAction(
+      "MEMBERSHIP_DISCOUNT"
+    );
+    if (hasMembershipDiscount === "Y") {
       this.membershipDiscount();
     }
     this.reciept();
-    this.#inputView.confirmAction("ADDITIONAL_PURCHASE");
+    const hasAdditionalPurchase = await this.#inputView.confirmAction(
+      "ADDITIONAL_PURCHASE"
+    );
+    return hasAdditionalPurchase;
   }
 
   //FIXME: 나중에
