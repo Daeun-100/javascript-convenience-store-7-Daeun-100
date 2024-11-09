@@ -36,7 +36,7 @@ class App {
   }
   async run() {
     const outputView = new OutputView();
-    const inputView = new InputView();
+    const inputView = new InputView(this.products);
     outputView.printGreetings();
     outputView.printProducts(this.products);
     const input = await inputView.readProductsInput();
