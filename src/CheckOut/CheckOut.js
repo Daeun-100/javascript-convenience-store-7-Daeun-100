@@ -86,7 +86,7 @@ export default class CheckOut {
 
   updateQuantityWithoutPromotion(inputItem) {
     const name = inputItem.name;
-    inputItem.quantity -= nonAppliedPromotionQuantity;
+    inputItem.quantity -= this.#discountInfo.nonAppliedPromotionQuantity[name];
     this.#discountInfo.nonAppliedPromotionQuantity[name] = 0;
   }
 

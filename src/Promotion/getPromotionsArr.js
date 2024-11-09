@@ -1,5 +1,5 @@
-import readLine from "../utils/readLine";
-import lineToArray from "../utils/lineToArray";
+import readLine from "../utils/readLine.js";
+import lineToArray from "../utils/lineToArray.js";
 
 function createPromotionForm(line) {
   const [name, buy, get, start_date, end_date] = lineToArray(line);

@@ -4,43 +4,29 @@ import Products from "./Product/Products.js";
 import Promotions from "./Promotion/Promotions.js";
 import CheckOut from "./CheckOut/CheckOut.js";
 import { Console } from "@woowacourse/mission-utils";
+import FileHandler from "./FileHandler.js";
+import getProductFormsArr from "./Product/getProductsForm.js";
+import getPromotionsArr from "./Promotion/getPromotionsArr.js";
+
 class App {
-  products;
-  constructor() {
-    this.products = new Products(
-      [
-        {
-          name: "콜라",
-          price: 1000,
-          normalQuantity: 10,
-          promotionQuantity: 10,
-          promotion: "반짝할인",
-        },
-        {
-          name: "사이다",
-          price: 900,
-          normalQuantity: 4,
-          promotion: null,
-        },
-      ],
-      new Promotions([
-        {
-          name: "반짝할인",
-          buy: 2,
-          get: 1,
-          start_date: "2024-07-01",
-          end_date: "2024-12-31",
-        },
-      ])
-    );
-  }
+  constructor() {}
   async run() {
+    const fileHandler = new FileHandler();
+    const productsText = await fileHandler.readTextFile("./public/products.md");
+    const promotionsText = await fileHandler.readTextFile(
+      "./public/promotions.md"
+    );
+
+    const productsFormsArr = getProductFormsArr(productsText);
+    const promotionsArr = getPromotionsArr(promotionsText);
+    const promotions = new Promotions(promotionsArr);
+    const products = new Products(productsFormsArr, promotions);
     const outputView = new OutputView();
-    const inputView = new InputView(this.products);
+    const inputView = new InputView(products);
     outputView.printGreetings();
-    outputView.printProducts(this.products);
+    outputView.printProducts(products);
     const input = await inputView.readProductsInput();
-    const checkOut = new CheckOut(input, this.products);
+    const checkOut = new CheckOut(input, products);
     await checkOut.checkout();
   }
 }

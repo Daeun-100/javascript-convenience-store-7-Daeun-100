@@ -1,10 +1,6 @@
-import readTextFile from "../utils/readTextFile.js";
 import readLine from "../utils/readLine.js";
-import lineToArray from "../utils/lineToArray.js";
 import selectNotNull from "../utils/selectNotNull.js";
-import Promotions from "../Promotion/Promotions.js";
 import generateProductForm from "./generateProductForm.js";
-import { Console } from "@woowacourse/mission-utils";
 function hasSameProductForm(productFormArr, productForm) {
   if (productFormArr.some((form) => form.name === productForm.name)) {
     return true;
