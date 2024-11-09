@@ -9,4 +9,8 @@ export default class FileHandler {
     const text = this.fs.readFileSync(path, "utf-8");
     return text;
   }
+
+  writeTextFile(path, text) {
+    this.fs.writeFileSync(path, text, "utf-8");
+  }
 }

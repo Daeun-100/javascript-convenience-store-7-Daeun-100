@@ -125,11 +125,7 @@ export default class Product {
     } ${this.#price.toLocaleString()}원 ${this.quantityLabel(
       this.#promotionQuantity
     )} ${this.#promotion.getName()}`;
-    const normalInfo = `- ${
-      this.#name
-    } ${this.#price.toLocaleString()}원 ${this.quantityLabel(
-      this.#normalQuantity
-    )}`;
+    const normalInfo = this.getNonPromotionFormattedProduct();
 
     return `${promotionInfo}\n${normalInfo}`;
   }
@@ -139,6 +135,26 @@ export default class Product {
       return this.getNonPromotionFormattedProduct();
     }
     return this.getPromotionFormattedProduct();
+  }
+
+  getPromotionTextProduct() {
+    return `${this.#name},${this.#price},${
+      this.#promotionQuantity
+    },${this.#promotion.getName()}`;
+  }
+
+  getNonPromotionTextProduct() {
+    return `${this.#name},${this.#price},${this.#normalQuantity},null`;
+  }
+
+  getTextProduct() {
+    if (!this.#promotion) {
+      return this.getNonPromotionTextProduct();
+    }
+    if (this.#normalQuantity === 0) {
+      return this.getPromotionTextProduct();
+    }
+    return `${this.getPromotionTextProduct()}\n${this.getNonPromotionTextProduct()}`;
   }
 
   toString() {

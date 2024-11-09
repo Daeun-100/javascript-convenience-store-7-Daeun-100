@@ -13,10 +13,8 @@ class App {
   async run() {
     const fileHandler = new FileHandler();
     // 1. 파일 읽기
-    const productsText = await fileHandler.readTextFile("./public/products.md");
-    const promotionsText = await fileHandler.readTextFile(
-      "./public/promotions.md"
-    );
+    const productsText = fileHandler.readTextFile("./public/products.md");
+    const promotionsText = fileHandler.readTextFile("./public/promotions.md");
 
     // 2. 데이터 파싱 및 객체 생성
     const productsFormsArr = getProductFormsArr(productsText);
@@ -34,6 +32,8 @@ class App {
       const checkOut = new CheckOut(input, products);
       hasAdditionalPurchase = await checkOut.checkout();
     } while (hasAdditionalPurchase === "Y");
+    const updatedProductsText = products.getTextProducts();
+    fileHandler.writeTextFile("./public/products.md", updatedProductsText);
   }
 }
 

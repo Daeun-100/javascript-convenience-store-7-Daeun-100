@@ -27,6 +27,15 @@ export default class Products {
     return this.#products.map((product) => product.getFormattedProduct());
   }
 
+  getTextProducts() {
+    let combinedText = "name,price,quantity,promotion\n";
+    combinedText += this.#products
+      .map((product) => product.getTextProduct())
+      .join("\n");
+
+    return combinedText;
+  }
+
   toString() {
     return this.#products.map((product) => product.toString());
   }
