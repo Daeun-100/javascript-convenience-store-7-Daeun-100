@@ -174,6 +174,7 @@ export default class CheckOut {
       return acc + Amount;
     }, 0);
   }
+
   reciept() {
     // 총구매액: 구매한 상품의 총 수량과 총 금액
     const totalAmount = this.getTotalAmount();
@@ -184,13 +185,19 @@ export default class CheckOut {
     // 내실돈: 최종 결제 금액
     const finalAmount = totalAmount - promotionDiscount - membershipDiscount;
 
-    this.#outputView.printReceipt(
-      this.#selectedItems,
-      this.#discountInfo,
+    //무엇을 넘겨주어야 할까요?
+    // 구매한 상품의 이름: this.#selectedItems
+    //구매한 상품의 총 수량 : this.#selectedItems
+    //증정 개수 : this.#discountInfo.giftQuantity
+    //총구매액,행사할인,멤버십할인,내실돈
+    this.#outputView.printReceipt({
+      products: this.#products,
+      selectedItem: this.#selectedItems,
+      discountInfo: this.#discountInfo,
       totalAmount,
       promotionDiscount,
       membershipDiscount,
-      finalAmount
-    );
+      finalAmount,
+    });
   }
 }

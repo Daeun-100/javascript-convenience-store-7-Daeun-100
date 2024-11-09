@@ -112,18 +112,22 @@ export default class Product {
   }
 
   getNonPromotionFormattedProduct() {
-    return `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
+    return `- ${
+      this.#name
+    } ${this.#price.toLocaleString()}원 ${this.quantityLabel(
       this.#normalQuantity
     )}`;
   }
 
   getPromotionFormattedProduct() {
-    const promotionInfo = `- ${this.#name} ${
-      this.#price
-    }원 ${this.quantityLabel(
+    const promotionInfo = `- ${
+      this.#name
+    } ${this.#price.toLocaleString()}원 ${this.quantityLabel(
       this.#promotionQuantity
     )} ${this.#promotion.getName()}`;
-    const normalInfo = `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
+    const normalInfo = `- ${
+      this.#name
+    } ${this.#price.toLocaleString()}원 ${this.quantityLabel(
       this.#normalQuantity
     )}`;
 
