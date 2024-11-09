@@ -1,10 +1,7 @@
 import Product from "../src/Product/Product.js";
 import Products from "../src/Product/Products.js";
-import {
-  getProductFormsArr,
-  generateProductForm,
-} from "../src/Product/getProductsForm.js";
-
+import getProductFormsArr from "../src/Product/getProductsForm.js";
+import generateProductForm from "../src/Product/generateProductForm.js";
 const mockPromotions = {
   map: jest.fn((name) => {
     if (name === "반짝할인") {
@@ -76,7 +73,7 @@ describe("product 정보 가공 테스트", () => {
   });
   test("productFormArr 생성 테스트", () => {
     const productText =
-      "name,price,quantity,promotion\n 비타민워터,1000,5,반짝할인\n  비타민워터,1000,10,null";
+      "name,price,quantity,promotion\n 비타민워터,1000,5,반짝할인\n  비타민워터,1000,10,null\n 불닭볶음면,2000,4,null\n";
     const productForm = getProductFormsArr(productText);
     expect(productForm).toEqual([
       {
@@ -85,6 +82,12 @@ describe("product 정보 가공 테스트", () => {
         normalQuantity: 10,
         promotionQuantity: 5,
         promotion: "반짝할인",
+      },
+      {
+        name: "불닭볶음면",
+        price: 2000,
+        normalQuantity: 4,
+        promotion: null,
       },
     ]);
   });
@@ -121,6 +124,6 @@ describe("products class test", () => {
     expect(products.getProduct("비타민워터").toString()).toBe(
       "비타민워터,1000,10,5,반짝할인"
     );
-    expect(products.getProduct("콜라")).toBe(null);
+    expect(products.getProduct("콜라")).toBe(undefined);
   });
 });

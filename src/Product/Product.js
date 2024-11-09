@@ -100,12 +100,13 @@ export default class Product {
     return `${quantity}개`;
   }
 
-  getFormattedProduct() {
-    if (!this.#promotion) {
-      return `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
-        this.#normalQuantity
-      )}`;
-    }
+  getNonPromotionFormattedProduct() {
+    return `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
+      this.#normalQuantity
+    )}`;
+  }
+
+  getPromotionFormattedProduct() {
     const promotionInfo = `- ${this.#name} ${
       this.#price
     }원 ${this.quantityLabel(
@@ -114,8 +115,17 @@ export default class Product {
     const normalInfo = `- ${this.#name} ${this.#price}원 ${this.quantityLabel(
       this.#normalQuantity
     )}`;
+
     return `${promotionInfo}\n${normalInfo}`;
   }
+
+  getFormattedProduct() {
+    if (!this.#promotion) {
+      return this.getNonPromotionFormattedProduct();
+    }
+    return this.getPromotionFormattedProduct();
+  }
+
   toString() {
     return `${this.#name},${this.#price},${this.#normalQuantity},${
       this.#promotionQuantity

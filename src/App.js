@@ -36,14 +36,14 @@ class App {
     );
   }
   async run() {
-    const outputView = new OutputView();
-    const inputView = new InputView();
-    outputView.printGreetings();
-    outputView.printProducts(this.products);
-    const input = await inputView.readProductsInput();
-    const formatInput = formatInputItem(input);
-    const checkOut = new CheckOut(formatInput, this.products);
-    await checkOut.checkout();
+    // const outputView = new OutputView();
+    // const inputView = new InputView();
+    // outputView.printGreetings();
+    // outputView.printProducts(this.products);
+    // const input = await inputView.readProductsInput();
+    // const formatInput = formatInputItem(input);
+    // const checkOut = new CheckOut(formatInput, this.products);
+    // await checkOut.checkout();
   }
 }
 
