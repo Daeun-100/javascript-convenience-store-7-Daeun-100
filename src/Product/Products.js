@@ -12,10 +12,7 @@ export default class Products {
   }
 
   getProduct(name) {
-    if (this.isProductExist(name)) {
-      return this.#products.find((product) => product.getName() === name);
-    }
-    return null;
+    return this.#products.find((product) => product.getName() === name);
   }
 
   #generateProducts(productsFormArr, promotions) {

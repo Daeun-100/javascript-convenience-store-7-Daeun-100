@@ -2,7 +2,11 @@ import OutputView from "./View/OutputView.js";
 import InputView from "./View/InputView.js";
 import Products from "./Product/Products.js";
 import Promotions from "./Promotion/Promotions.js";
+import CheckOut from "./CheckOut/CheckOut.js";
+import formatInputItem from "./utils/formatInputItem.js";
+import { Console } from "@woowacourse/mission-utils";
 class App {
+  products;
   constructor() {
     this.products = new Products(
       [
@@ -10,7 +14,7 @@ class App {
           name: "콜라",
           price: 1000,
           normalQuantity: 10,
-          promotionQuantity: 0,
+          promotionQuantity: 10,
           promotion: "반짝할인",
         },
         {
@@ -26,7 +30,7 @@ class App {
           buy: 1,
           get: 1,
           start_date: "2024-07-01",
-          end_date: "2024-07-31",
+          end_date: "2024-12-31",
         },
       ])
     );
@@ -37,13 +41,9 @@ class App {
     outputView.printGreetings();
     outputView.printProducts(this.products);
     const input = await inputView.readProductsInput();
-    const a = await inputView.confirmAction(
-      "PURCHASE_WITHOUT_PROMOTION",
-      "콜라",
-      10
-    );
-    const b = await inputView.confirmAction("ADDITIONAL_GIFT", "사이다", 1);
-    const c = await inputView.confirmAction("MEMBERSHIP_DISCOUNT");
+    const formatInput = formatInputItem(input);
+    const checkOut = new CheckOut(formatInput, this.products);
+    await checkOut.checkout();
   }
 }
 
