@@ -21,6 +21,7 @@ describe("product class test", () => {
       getName: () => "반짝할인",
       getSetQuantity: () => 3,
       getGiftQuantity: (quantity) => 1 * Math.floor(quantity / 3),
+      isAvailable: () => true,
     },
   });
 

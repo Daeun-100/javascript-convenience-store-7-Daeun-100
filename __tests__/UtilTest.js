@@ -1,6 +1,6 @@
 import readTextFile from "../src/utils/readTextFile.js";
 import readLine from "../src/utils/readLine.js";
-import formatInputItem from "../src/utils/formatInputItem.js";
+import formatInput from "../src/utils/formatInput.js";
 
 describe("Util", () => {
   test("파일 한줄씩 읽기", () => {
@@ -12,7 +12,7 @@ describe("Util", () => {
   });
   test("inputText를 객체를 담은 배열로 변환", () => {
     const input = "[콜라-10],[사이다-3]";
-    expect(formatInputItem(input)).toEqual([
+    expect(formatInput(input)).toEqual([
       { name: "콜라", quantity: 10 },
       { name: "사이다", quantity: 3 },
     ]);

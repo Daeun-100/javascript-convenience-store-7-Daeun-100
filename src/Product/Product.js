@@ -18,7 +18,7 @@ export default class Product {
     this.#promotionQuantity = promotionQuantity;
     this.#promotion = promotion;
   }
-
+  //프로모션 적용기간이 아닌데 일반재고로는 부족한 경우는 어떡하지..?? 프로모션 부터 차감..?
   isQuantityEnough(quantity) {
     return this.#normalQuantity + this.#promotionQuantity >= quantity;
   }
@@ -30,7 +30,7 @@ export default class Product {
   isPromotionQuantityEnough(number) {
     return this.#promotionQuantity >= number;
   }
-
+  //현재는 프로모션 기간이 지났으면 프로모션 재고 부터 소진하도록 설정
   purchaseProduct(quantity) {
     let restQuantity = quantity;
     if (this.#promotionQuantity >= quantity) {
@@ -50,8 +50,8 @@ export default class Product {
     this.#promotionQuantity -= number;
   }
 
-  isPromotionAvailable(date) {
-    if (this.#promotion && this.#promotion.isAvailable(date)) {
+  isPromotionAvailable() {
+    if (this.#promotion && this.#promotion.isAvailable()) {
       return true;
     }
     return false;
@@ -61,15 +61,22 @@ export default class Product {
   getNonAppliedPromotionQuantity(quantity) {
     return quantity - this.getAppliedPromotionQuantity(quantity);
   }
-
+  //프로모션 적용 날짜 지난경우, or 없는경우
   getAppliedPromotionQuantity(quantity) {
+    if (!this.isPromotionAvailable()) {
+      return 0;
+    }
+
     const setQuantity = this.#promotion.getSetQuantity();
     let tempQuantity = quantity;
+
     if (this.#promotionQuantity < quantity) {
       tempQuantity = this.#promotionQuantity;
     }
+
     const appliedPromotionQuantity =
       setQuantity * Math.floor(tempQuantity / setQuantity);
+
     return appliedPromotionQuantity;
   }
   //프로모션 상품 수량을 적게 가져온경우
@@ -80,8 +87,12 @@ export default class Product {
     }
     return this.#promotion.isAdditionalGiftEligible(quantity);
   }
-
+  //프로모션 적용 불가능한 경우
   getGiftQuantity(quantity) {
+    if (!this.isPromotionAvailable()) {
+      return 0;
+    }
+
     const appliedPromotionQuantity = this.getAppliedPromotionQuantity(quantity);
     return this.#promotion.getGiftQuantity(appliedPromotionQuantity);
   }

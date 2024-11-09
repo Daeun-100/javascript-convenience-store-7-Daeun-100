@@ -1,31 +1,39 @@
 import InputView from "../View/InputView.js";
 import outputView from "../View/OutputView.js";
 import { Console } from "@woowacourse/mission-utils";
+import formatInput from "../utils/formatInput.js";
+import { DISCOUNT_INFO } from "../Constants.js";
 //input = "[콜라-10],[사이다-3]";
 //formatInput=[{name:콜라, quantity:10}, {name:사이다, quantity:3}]
-//selectedItems = formatInput
+
 export default class CheckOut {
   #selectedItems;
   #products;
   #discountInfo;
   #inputView;
   #outputView;
-  constructor(formatInput, Products) {
-    this.#selectedItems = formatInput;
+
+  constructor(Input, Products) {
+    this.#selectedItems = formatInput(Input);
     this.#products = Products;
-    this.#discountInfo = {
-      //{콜라:0,사이다:0}
-      giftQuantity: {},
-      nonAppliedPromotionQuantity: {},
-      membershipDiscount: 0,
-    };
+    this.#discountInfo = this.#geratedisCountInfo();
 
     this.#inputView = new InputView();
     this.#outputView = new outputView();
   }
 
+  #geratedisCountInfo() {
+    const discountInfo = { ...DISCOUNT_INFO };
+
+    this.#selectedItems.forEach((inputItem) => {
+      discountInfo.giftQuantity[inputItem.name] = 0;
+      discountInfo.nonAppliedPromotionQuantity[inputItem.name] = 0;
+    });
+
+    return discountInfo;
+  }
+
   async checkout() {
-    Console.print(this.#selectedItems);
     for (const inputItem of this.#selectedItems) {
       await this.promoteProcessSingleItem(inputItem);
     }
@@ -37,6 +45,7 @@ export default class CheckOut {
     this.#inputView.confirmAction("ADDITIONAL_PURCHASE");
   }
 
+  //FIXME: 나중에
   validateQuantity() {
     if (!product.isQuantityEnough(inputItem.quantity)) {
       //validate 밖으로 빼기
@@ -44,85 +53,82 @@ export default class CheckOut {
       //재입력 받기
     }
   }
-  //손님이 원하는 물건 이름과 개수를 넘겨줌 - selectedItems
-  //이름으로 제품을 찾음
-  //제품의 재고 확인
-  //재고가 충분하면 재고를 줄임
-  //하나의 inputitem에 대해서만 처리
-  async promoteProcessSingleItem(inputItem) {
-    const product = this.#products.getProduct(inputItem.name);
-    const name = product.getName();
-    // TODO: 프로모션이 적용 안되는 기간이면 어디서 처리하지? 일단 checktout에서 처리해보기
-    //프로모션이 없거나 기간이 지났으면 프로모션 적용 아예 안됨
-    let nonAppliedPromotionQuantity;
-    let giftQuantity;
-    if (product.isPromotionAvailable(new Date("2024-11-09"))) {
-      //프로모션 적용 안되는 개수 저장
-      Console.print("프로모션 적용 가능");
-      nonAppliedPromotionQuantity = product.getNonAppliedPromotionQuantity(
-        inputItem.quantity
-      );
-      //증정하는 제품 수량 저장
-      giftQuantity = product.getGiftQuantity(inputItem.quantity);
-    } else {
-      nonAppliedPromotionQuantity = inputItem.quantity;
-      giftQuantity = 0;
-    }
-    this.#discountInfo.nonAppliedPromotionQuantity[name] =
-      nonAppliedPromotionQuantity;
-    this.#discountInfo.giftQuantity[name] = giftQuantity;
 
+  async checkPurchaseWithoutPromotion(inputItem, product) {
+    const name = product.getName();
     if (
-      product.isPromotionAvailable(new Date("2024-11-09")) &&
+      product.isPromotionAvailable() &&
       !product.isPromotionQuantityEnough(inputItem.quantity)
     ) {
-      //현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다.
-      //그래도 구매하시겠습니까? (Y/N)
       const yesOrNo = await this.#inputView.confirmAction(
         "PURCHASE_WITHOUT_PROMOTION",
         name,
-        nonAppliedPromotionQuantity
+        this.#discountInfo.nonAppliedPromotionQuantity[name]
       );
-      // 차감해야하는 일반 상품 수량 알아야함 -> Product에서 알아서 처리
-      // 프로모션 할인이 적용안되는 수량 알아야함 -> Product에서 알아서 처리
-
-      //N일때 프로모션 가능 수량만 구매하도록 처리
-      if (yesOrNo === "N") {
-        //프로모션 할인이 적용안되는 수량만큼 전체 quantity 감소
-        inputItem.quantity -= nonAppliedPromotionQuantity;
-        // 이 경우 프로모션이 적용 안되는 수량은 없음
-        this.#discountInfo.nonAppliedPromotionQuantity[name] = 0;
-      }
+      return yesOrNo;
     }
-    //고민되는게 프로모션이 적용가능한 충분한 재고가 있지만 충족을 못할때는 어떡하지?
-    //그냥 구매해?
+  }
+
+  async checkAdditionalGift(inputItem, product) {
     if (
-      product.isPromotionAvailable(new Date("2024-11-09")) &&
+      product.isPromotionAvailable() &&
       product.isPromotionQuantityEnough(inputItem.quantity) &&
       //추가로 받을 수 있을지
       product.isAdditionalGiftEligible(inputItem.quantity)
     ) {
-      //현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다.
-      //추가하시겠습니까? (Y/N)
-      //Y일때 추가로 구매하도록 처리
       const yesOrNo = await this.#inputView.confirmAction(
         "ADDITIONAL_GIFT",
-        name
+        product.getName()
       );
-      if (yesOrNo === "Y") {
-        inputItem.quantity++;
-        //추가로 구매한 수량만큼 giftQuantity 증가
-        this.#discountInfo.giftQuantity[name] += 1;
-        //이 경우 프로모션이 적용 안되는 수량은 없음
-        this.#discountInfo.nonAppliedPromotionQuantity[name] = 0;
-      }
+      return yesOrNo;
     }
-    //purchase 로직도 바꿔야함 왜냐? 프로모션재고갸 있지만 기간이 지났을때도 있음
+  }
+
+  updateQuantityWithoutPromotion(inputItem) {
+    const name = inputItem.name;
+    inputItem.quantity -= nonAppliedPromotionQuantity;
+    this.#discountInfo.nonAppliedPromotionQuantity[name] = 0;
+  }
+
+  updateQuantityAdditionalGift(inputItem) {
+    const name = inputItem.name;
+    inputItem.quantity += 1;
+    this.#discountInfo.giftQuantity[name] += 1;
+    this.#discountInfo.nonAppliedPromotionQuantity[name] = 0;
+  }
+
+  async checkAndUpdatePurchaseOptions(inputItem, product) {
+    const purchaseConfirmation = await this.checkPurchaseWithoutPromotion(
+      inputItem,
+      product
+    );
+    if (purchaseConfirmation === "N") {
+      this.updateQuantityWithoutPromotion(inputItem);
+    }
+
+    const giftConfirmation = await this.checkAdditionalGift(inputItem, product);
+    if (giftConfirmation === "Y") {
+      this.updateQuantityAdditionalGift(inputItem);
+    }
+  }
+
+  //프로모션 적용 안되는 기간은 product에서 알아서 처리
+  //inputItem = {name:콜라, quantity:10} // this.#selectedItems의 각 객체 요소
+  async promoteProcessSingleItem(inputItem) {
+    const product = this.#products.getProduct(inputItem.name);
+    const name = product.getName();
+    this.#discountInfo.nonAppliedPromotionQuantity[name] =
+      product.getNonAppliedPromotionQuantity(inputItem.quantity);
+    this.#discountInfo.giftQuantity[name] = product.getGiftQuantity(
+      inputItem.quantity
+    );
+
+    await this.checkAndUpdatePurchaseOptions(inputItem, product);
     product.purchaseProduct(inputItem.quantity);
   }
-  //멤버쉽 할인 적용
-  //selectedItems=[{name:콜라, quantity:10}, {name:사이다, quantity:3}]
-  membershipDiscount() {
+
+  //프로모션 적용안된 상품의 총 금액
+  getNonPromotionTotalAmount() {
     let nonPromotionTotalAmount = 0;
     this.#selectedItems.forEach((inputItem) => {
       const product = this.#products.getProduct(inputItem.name);
@@ -132,34 +138,47 @@ export default class CheckOut {
         nonAppliedPromotionQuantity
       );
     });
+    return nonPromotionTotalAmount;
+  }
+
+  //멤버쉽 할인 적용
+  membershipDiscount() {
+    const nonPromotionTotalAmount = this.getNonPromotionTotalAmount();
+
     let disCountAmount = nonPromotionTotalAmount * 0.3;
     if (disCountAmount > 8000) {
       disCountAmount = 8000;
     }
+
     this.#discountInfo.membershipDiscount = disCountAmount;
     return disCountAmount;
   }
 
-  reciept() {
-    // 총구매액: 구매한 상품의 총 수량과 총 금액
-    const totalAmount = this.#selectedItems.reduce((acc, inputItem) => {
+  getTotalAmount() {
+    return this.#selectedItems.reduce((acc, inputItem) => {
       const product = this.#products.getProduct(inputItem.name);
       const Amount = product.getTotalAmount(inputItem.quantity);
       return acc + Amount;
     }, 0);
-    // 행사할인: 프로모션에 의해 할인된 금액
-    const promotionDiscount = Object.keys(
-      this.#discountInfo.giftQuantity
-    ).reduce((acc, name) => {
+  }
+  getPromotionDiscount() {
+    return Object.keys(this.#discountInfo.giftQuantity).reduce((acc, name) => {
       const product = this.#products.getProduct(name);
       const giftQuantity = this.#discountInfo.giftQuantity[name];
       const Amount = product.getTotalAmount(giftQuantity);
       return acc + Amount;
     }, 0);
+  }
+  reciept() {
+    // 총구매액: 구매한 상품의 총 수량과 총 금액
+    const totalAmount = this.getTotalAmount();
+    // 행사할인: 프로모션에 의해 할인된 금액
+    const promotionDiscount = this.getPromotionDiscount();
     // 멤버십할인: 멤버십에 의해 추가로 할인된 금액
-    const membershipDiscount = this.membershipDiscount();
+    const membershipDiscount = this.#discountInfo.membershipDiscount;
     // 내실돈: 최종 결제 금액
     const finalAmount = totalAmount - promotionDiscount - membershipDiscount;
+
     this.#outputView.printReceipt(
       this.#selectedItems,
       this.#discountInfo,

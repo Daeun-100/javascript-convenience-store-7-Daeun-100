@@ -11,7 +11,7 @@ export default class OutputView {
       Console.print(productInfo);
     });
   }
-  printReceipt(receipt) {
+  printReceipt(...receipt) {
     Console.print("## 영수증");
     receipt.forEach((receiptInfo) => {
       Console.print(receiptInfo);
