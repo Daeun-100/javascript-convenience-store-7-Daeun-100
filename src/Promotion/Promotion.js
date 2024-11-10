@@ -1,4 +1,4 @@
-import { DateTimes } from "@woowacourse/mission-utils";
+import { DateTimes, Console } from "@woowacourse/mission-utils";
 export default class Promotion {
   #name;
   #buy;
@@ -16,6 +16,7 @@ export default class Promotion {
 
   isAvailable() {
     const date = DateTimes.now();
+
     return (
       new Date(this.#start_date) <= date && date <= new Date(this.#end_date)
     );

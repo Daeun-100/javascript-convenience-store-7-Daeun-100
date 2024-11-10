@@ -39,7 +39,7 @@ export default class InputView {
       input = await Console.readLineAsync(message);
       Console.print("");
       this.#validate.YesOrNo(input);
-      return input.trim().toUpperCase();
+      return input.trim();
     } catch (e) {
       return this.handleError(e, this.askYesOrNo.bind(this, message));
     }

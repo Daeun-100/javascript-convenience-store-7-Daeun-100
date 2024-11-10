@@ -8,10 +8,7 @@ export default class Validate {
   }
 
   YesOrNo(input) {
-    if (
-      input.trim().toUpperCase() !== "Y" &&
-      input.trim().toUpperCase() !== "N"
-    ) {
+    if (input.trim() !== "Y" && input.trim() !== "N") {
       throw new Error("[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.");
     }
   }
