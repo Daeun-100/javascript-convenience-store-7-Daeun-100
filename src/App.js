@@ -54,11 +54,11 @@ class App {
     let hasAdditionalPurchase;
 
     do {
-      hasAdditionalPurchase = await this.executePurchase(products);
       if (products.isOutOfStock()) {
         Console.print("모든 재고가 소진되었습니다.");
         return;
       }
+      hasAdditionalPurchase = await this.executePurchase(products);
     } while (hasAdditionalPurchase === "Y");
   }
 
