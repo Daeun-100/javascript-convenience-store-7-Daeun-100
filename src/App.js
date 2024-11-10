@@ -10,7 +10,6 @@ import formatInput from "./formatInput.js";
 import path from "path";
 import { Console } from "@woowacourse/mission-utils";
 import mergeDuplicateItems from "./mergeDuplicateItems.js";
-import dirname from "./dirname.cjs";
 
 class App {
   #fileHandler;
@@ -24,9 +23,11 @@ class App {
   loadFiles() {
     // const productsPath = path.join(process.cwd(), "public/products.md");
     // const promotionsPath = path.join(process.cwd(), "public/promotions.md");
-    const { __dirname } = dirname;
-    const productsPath = path.join(__dirname, "../public/products.md");
-    const promotionsPath = path.join(__dirname, "../public/promotions.md");
+    // const { __dirname } = dirname;
+    // const productsPath = path.join(__dirname, "../public/products.md");
+    // const promotionsPath = path.join(__dirname, "../public/promotions.md");
+    const productsPath = "public/products.md";
+    const promotionsPath = "public/promotions.md";
     const productsText = this.#fileHandler.readTextFile(productsPath);
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
     return { productsText, promotionsText };
