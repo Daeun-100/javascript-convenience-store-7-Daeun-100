@@ -21,7 +21,6 @@ class App {
 
   loadFiles() {
     const productsPath = path.join(process.cwd(), "public/products.md");
-    Console.print(productsPath);
     const promotionsPath = path.join(process.cwd(), "public/promotions.md");
     const productsText = this.#fileHandler.readTextFile(productsPath);
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
