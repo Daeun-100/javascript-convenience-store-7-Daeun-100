@@ -7,10 +7,10 @@ describe("Promotion test", () => {
     buy: 1,
     get: 1,
     start_date: "2024-09-01",
-    end_date: "2025-09-30",
+    end_date: "2024-09-30",
   });
   test("오늘 날짜에 적용 가능한지 확인", () => {
-    expect(promotion.isAvailable()).toBe(true);
+    expect(promotion.isAvailable()).toBe(false);
   });
   const promotion21 = new Promotion({
     name: "Buy 2 Get 1",

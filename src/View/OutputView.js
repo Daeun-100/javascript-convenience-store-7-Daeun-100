@@ -3,7 +3,7 @@ import { Console } from "@woowacourse/mission-utils";
 export default class OutputView {
   printGreetings() {
     Console.print("안녕하세요. W편의점입니다.");
-    Console.print("현재 보유하고 있는 상품입니다.");
+    Console.print("현재 보유하고 있는 상품입니다.\n");
   }
 
   printProducts(products) {
@@ -11,6 +11,7 @@ export default class OutputView {
     formattedProducts.forEach((productInfo) => {
       Console.print(productInfo);
     });
+    Console.print("");
   }
 
   // 각 문자에 대해 한글인지 숫자인지 확인하여 길이 계산
@@ -105,5 +106,6 @@ export default class OutputView {
     this.printTotalAmount(totalCount, totalAmount);
     this.printDiscounts(promotionDiscount, membershipDiscount);
     this.printFinalAmount(finalAmount);
+    Console.print("");
   }
 }

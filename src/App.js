@@ -7,6 +7,7 @@ import FileHandler from "./FileHandler.js";
 import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
+import { Console } from "@woowacourse/mission-utils";
 
 class App {
   #fileHandler;
@@ -41,8 +42,8 @@ class App {
     this.#outputView.printProducts(products);
 
     const input = await this.#inputView.readProductsInput();
-    const selectedItems = formatInput(input);
 
+    const selectedItems = formatInput(input);
     const checkOut = new CheckOut(selectedItems, products);
     return await checkOut.checkout();
   }

@@ -1,7 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
 import { MESSAGES } from "../Constants.js";
 import Validate from "../Validate.js";
-import getProductFormsArr from "../Product/getProductsForm.js";
 
 export default class InputView {
   #validate;
@@ -25,6 +24,7 @@ export default class InputView {
       let input = await Console.readLineAsync(
         "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])\n"
       );
+      Console.print("");
       input = input.trim();
       this.validateInput(input);
       return input;
@@ -37,6 +37,7 @@ export default class InputView {
     let input;
     try {
       input = await Console.readLineAsync(message);
+      Console.print("");
       this.#validate.YesOrNo(input);
       return input.trim().toUpperCase();
     } catch (e) {

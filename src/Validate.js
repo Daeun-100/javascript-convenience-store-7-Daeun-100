@@ -1,4 +1,3 @@
-import { Console } from "@woowacourse/mission-utils";
 import formatInput from "./utils/formatInput.js";
 export default class Validate {
   #products;

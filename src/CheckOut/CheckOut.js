@@ -60,7 +60,7 @@ export default class CheckOut {
     await this.applyMembershipDiscount();
     this.receipt();
 
-    hasAdditionalPurchase = await this.checkForAdditionalPurchase();
+    const hasAdditionalPurchase = await this.checkForAdditionalPurchase();
     return hasAdditionalPurchase;
   }
 
