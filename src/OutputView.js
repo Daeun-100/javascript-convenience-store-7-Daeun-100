@@ -41,6 +41,7 @@ export default class OutputView {
 
   printSelectedItems(allProductsInfo) {
     allProductsInfo.forEach((item) => {
+      if (item.quantity === 0) return;
       Console.print(
         `${this.padEndForKoreanText(item.name, 19)}${String(
           item.quantity

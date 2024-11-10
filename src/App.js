@@ -28,10 +28,7 @@ class App {
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
     return { productsText, promotionsText };
   }
-  pathTest() {
-    const productsPath = path.join(process.cwd(), "public/products.md");
-    return productsPath;
-  }
+
   getProducts() {
     const { productsText, promotionsText } = this.loadFiles();
 
@@ -59,6 +56,7 @@ class App {
 
     do {
       if (products.isOutOfStock()) {
+        Console.print("모든 상품이 품절되었습니다");
         return;
       }
       hasAdditionalPurchase = await this.executePurchase(products);

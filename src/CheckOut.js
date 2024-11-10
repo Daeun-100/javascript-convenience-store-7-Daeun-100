@@ -5,6 +5,7 @@ import { DISCOUNT_INFO } from "./Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
 import Receipt from "./receipt.js";
+import { Console } from "@woowacourse/mission-utils";
 
 export default class CheckOut {
   #selectedItems;
@@ -56,8 +57,16 @@ export default class CheckOut {
 
   async checkout() {
     await this.#checkoutManager.processSelectedItems();
-    await this.applyMembershipDiscount();
-    this.receipt();
+    const allItemsQuantityZero = this.#selectedItems.every(
+      (item) => item.quantity === 0
+    );
+
+    if (!allItemsQuantityZero) {
+      await this.applyMembershipDiscount();
+      this.receipt();
+    } else {
+      Console.print("결제할 상품이 없습니다.\n");
+    }
 
     const hasAdditionalPurchase = await this.checkForAdditionalPurchase();
     return hasAdditionalPurchase;
