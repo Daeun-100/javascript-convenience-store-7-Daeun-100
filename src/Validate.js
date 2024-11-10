@@ -1,5 +1,5 @@
-import formatInput from "./utils/formatInput.js";
-import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
+import formatInput from "./formatInput.js";
+import mergeDuplicateItems from "./mergeDuplicateItems.js";
 export default class Validate {
   #products;
 

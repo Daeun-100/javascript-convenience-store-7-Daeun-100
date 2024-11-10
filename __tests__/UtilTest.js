@@ -1,6 +1,4 @@
-import readTextFile from "../src/utils/readTextFile.js";
-import readLine from "../src/utils/readLine.js";
-import formatInput from "../src/utils/formatInput.js";
+import formatInput from "../src/formatInput.js";
 
 describe("Util", () => {
   test("inputText를 객체를 담은 배열로 변환", () => {

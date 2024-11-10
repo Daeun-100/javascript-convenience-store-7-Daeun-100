@@ -1,7 +1,7 @@
-import InputView from "../View/InputView.js";
-import outputView from "../View/OutputView.js";
-import formatInput from "../utils/formatInput.js";
-import { DISCOUNT_INFO } from "../Constants.js";
+import InputView from "./InputView.js";
+import outputView from "./OutputView.js";
+import formatInput from "./formatInput.js";
+import { DISCOUNT_INFO } from "./Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
 import Receipt from "./receipt.js";

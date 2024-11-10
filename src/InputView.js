@@ -1,6 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
-import { MESSAGES } from "../Constants.js";
-import Validate from "../Validate.js";
+import { MESSAGES } from "./Constants.js";
+import Validate from "./Validate.js";
 
 export default class InputView {
   #validate;

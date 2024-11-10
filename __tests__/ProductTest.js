@@ -1,7 +1,7 @@
-import Product from "../src/Product/Product.js";
-import Products from "../src/Product/Products.js";
-import getProductFormsArr from "../src/Product/getProductsForm.js";
-import generateProductForm from "../src/Product/generateProductForm.js";
+import Product from "../src/Product.js";
+import Products from "../src/Products.js";
+import getProductFormsArr from "../src/getProductsForm.js";
+import generateProductForm from "../src/generateProductForm.js";
 const mockPromotions = {
   map: jest.fn((name) => {
     if (name === "반짝할인") {

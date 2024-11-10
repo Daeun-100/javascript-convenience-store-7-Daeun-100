@@ -1,15 +1,15 @@
-import OutputView from "./View/OutputView.js";
-import InputView from "./View/InputView.js";
-import Products from "./Product/Products.js";
-import Promotions from "./Promotion/Promotions.js";
-import CheckOut from "./CheckOut/CheckOut.js";
+import OutputView from "./OutputView.js";
+import InputView from "./InputView.js";
+import Products from "./Products.js";
+import Promotions from "./Promotions.js";
+import CheckOut from "./CheckOut.js";
 import FileHandler from "./FileHandler.js";
-import getProductFormsArr from "./Product/getProductsForm.js";
-import getPromotionsArr from "./Promotion/getPromotionsArr.js";
-import formatInput from "./utils/formatInput.js";
+import getProductFormsArr from "./getProductsForm.js";
+import getPromotionsArr from "./getPromotionsArr.js";
+import formatInput from "./formatInput.js";
 import path from "path";
 import { Console } from "@woowacourse/mission-utils";
-import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
+import mergeDuplicateItems from "./mergeDuplicateItems.js";
 import dirname from "./dirname.cjs";
 
 class App {
@@ -59,7 +59,6 @@ class App {
 
     do {
       if (products.isOutOfStock()) {
-        Console.print("모든 재고가 소진되었습니다.");
         return;
       }
       hasAdditionalPurchase = await this.executePurchase(products);
