@@ -1,5 +1,6 @@
 import InputView from "../View/InputView.js";
 import outputView from "../View/OutputView.js";
+import formatInput from "../utils/formatInput.js";
 import { DISCOUNT_INFO } from "../Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
@@ -43,7 +44,7 @@ export default class CheckOut {
   }
 
   #geratedisCountInfo() {
-    const discountInfo = { ...DISCOUNT_INFO };
+    const discountInfo = JSON.parse(JSON.stringify(DISCOUNT_INFO));
 
     this.#selectedItems.forEach((inputItem) => {
       discountInfo.giftQuantity[inputItem.name] = 0;
