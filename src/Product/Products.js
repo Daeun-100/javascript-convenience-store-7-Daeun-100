@@ -7,6 +7,10 @@ export default class Products {
     this.#products = this.#generateProducts(productsFormArr, promotions);
   }
 
+  isOutOfStock() {
+    return this.#products.every((product) => !product.isQuantityEnough(1));
+  }
+
   isProductExist(name) {
     return this.#products.some((product) => product.getName() === name);
   }

@@ -8,6 +8,7 @@ import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
 import path from "path";
+import { Console } from "@woowacourse/mission-utils";
 
 class App {
   #fileHandler;
@@ -20,6 +21,7 @@ class App {
 
   loadFiles() {
     const productsPath = path.join(process.cwd(), "public/products.md");
+    Console.print(productsPath);
     const promotionsPath = path.join(process.cwd(), "public/promotions.md");
     const productsText = this.#fileHandler.readTextFile(productsPath);
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
@@ -49,8 +51,13 @@ class App {
 
   async executePurchaseLoop(products) {
     let hasAdditionalPurchase;
+
     do {
       hasAdditionalPurchase = await this.executePurchase(products);
+      if (products.isOutOfStock()) {
+        Console.print("모든 재고가 소진되었습니다.");
+        return;
+      }
     } while (hasAdditionalPurchase === "Y");
   }
 
