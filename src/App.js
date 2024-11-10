@@ -65,7 +65,7 @@ class App {
     const products = this.getProducts();
     this.#inputView = new InputView(products);
     await this.executePurchaseLoop(products);
-    this.saveUpdatedProducts(products);
+    // this.saveUpdatedProducts(products);
   }
 }
 
