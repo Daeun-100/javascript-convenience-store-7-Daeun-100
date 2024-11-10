@@ -4,7 +4,7 @@ import formatInput from "./formatInput.js";
 import { DISCOUNT_INFO } from "./Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
-import Receipt from ".Receipt.js";
+import Receipt from "./Receipt.js";
 import { Console } from "@woowacourse/mission-utils";
 
 export default class CheckOut {
