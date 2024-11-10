@@ -44,6 +44,7 @@ class App {
 
     const input = await this.#inputView.readProductsInput();
     const selectedItems = formatInput(input);
+
     const checkOut = new CheckOut(selectedItems, products);
     return await checkOut.checkout();
   }

@@ -1,4 +1,5 @@
 import formatInput from "./utils/formatInput.js";
+import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
 export default class Validate {
   #products;
 
@@ -44,7 +45,8 @@ export default class Validate {
   }
 
   isQuantityEnough(input) {
-    const formattedInput = formatInput(input);
+    let formattedInput = formatInput(input);
+    formattedInput = mergeDuplicateItems(formattedInput);
     const isQuantityEnough = this.checkQuantity(formattedInput);
     if (!isQuantityEnough) {
       throw new Error(
