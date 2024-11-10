@@ -7,7 +7,6 @@ import FileHandler from "./FileHandler.js";
 import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
-import { Console } from "@woowacourse/mission-utils";
 
 class App {
   #fileHandler;

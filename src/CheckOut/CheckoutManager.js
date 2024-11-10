@@ -1,5 +1,4 @@
 import InputView from "../View/InputView.js";
-import DiscountCalculator from "./DiscountCalculator.js";
 import PromotionManager from "./PromotionManager.js";
 export default class CheckoutManager {
   #selectedItems;
