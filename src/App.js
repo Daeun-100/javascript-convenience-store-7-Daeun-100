@@ -7,6 +7,8 @@ import FileHandler from "./FileHandler.js";
 import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
 class App {
   #fileHandler;
@@ -18,10 +20,12 @@ class App {
   }
 
   loadFiles() {
-    const productsText = this.#fileHandler.readTextFile("./public/products.md");
-    const promotionsText = this.#fileHandler.readTextFile(
-      "./public/promotions.md"
-    );
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const productsPath = path.join(__dirname, "../public/products.md");
+    const promotionsPath = path.join(__dirname, "../public/promotions.md");
+    const productsText = this.#fileHandler.readTextFile(productsPath);
+    const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
     return { productsText, promotionsText };
   }
 
