@@ -4,6 +4,7 @@ import formatInput from "../utils/formatInput.js";
 import { DISCOUNT_INFO } from "../Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
+import Receipt from "./receipt.js";
 
 export default class CheckOut {
   #selectedItems;
@@ -11,6 +12,7 @@ export default class CheckOut {
   #discountInfo;
   #checkoutManager;
   #discountCalculator;
+  #receipt;
   #inputView;
   #outputView;
 
@@ -27,6 +29,11 @@ export default class CheckOut {
       this.#discountInfo
     );
     this.#discountCalculator = new DiscountCalculator(
+      this.#selectedItems,
+      this.#products,
+      this.#discountInfo
+    );
+    this.#receipt = new Receipt(
       this.#selectedItems,
       this.#products,
       this.#discountInfo
@@ -50,7 +57,7 @@ export default class CheckOut {
   async checkout() {
     await this.#checkoutManager.processSelectedItems();
     await this.applyMembershipDiscount();
-    this.reciept();
+    this.receipt();
     return await this.checkForAdditionalPurchase();
   }
 
@@ -64,20 +71,9 @@ export default class CheckOut {
     }
   }
 
-  reciept() {
-    const totalAmount = this.#discountCalculator.getTotalAmount();
-    const promotionDiscount = this.#discountCalculator.getPromotionDiscount();
-    const membershipDiscount = this.#discountInfo.membershipDiscount;
-
-    this.#outputView.printReceipt({
-      products: this.#products,
-      //흠..여기서 가공해서 넘겨줘야할까?
-      selectedItem: this.#selectedItems,
-      discountInfo: this.#discountInfo,
-      totalAmount,
-      promotionDiscount,
-      membershipDiscount,
-    });
+  receipt() {
+    const receiptDetails = this.#receipt.getReceiptDetails();
+    this.#outputView.printReceipt(receiptDetails);
   }
 
   async checkForAdditionalPurchase() {

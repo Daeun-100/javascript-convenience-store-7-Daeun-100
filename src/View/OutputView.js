@@ -38,15 +38,12 @@ export default class OutputView {
     }
   }
 
-  printSelectedItems(products, selectedItem) {
-    selectedItem.forEach((item) => {
-      const amount = products
-        .getProduct(item.name)
-        .getTotalAmount(item.quantity);
+  printSelectedItems(allProductsInfo) {
+    allProductsInfo.forEach((item) => {
       Console.print(
         `${this.padEndForKoreanText(item.name, 19)}${String(
           item.quantity
-        ).padEnd(11)}${amount.toLocaleString()}`
+        ).padEnd(11)}${item.amount.toLocaleString()}`
       );
     });
   }
@@ -82,11 +79,7 @@ export default class OutputView {
     );
   }
 
-  printTotalAmount(totalAmount, selectedItem) {
-    const totalCount = selectedItem.reduce(
-      (acc, item) => acc + item.quantity,
-      0
-    );
+  printTotalAmount(totalCount, totalAmount) {
     Console.print(
       `${this.padEndForKoreanText("총구매액", 19)}${String(totalCount).padEnd(
         11
@@ -95,22 +88,22 @@ export default class OutputView {
   }
 
   printReceipt({
-    products,
-    selectedItem,
+    allProductsInfo,
     discountInfo,
+    totalCount,
     totalAmount,
     promotionDiscount,
     membershipDiscount,
+    finalAmount,
   }) {
-    const finalAmount = totalAmount - promotionDiscount - membershipDiscount;
     Console.print("==============W 편의점================");
     Console.print("상품명		   수량	      금액");
-    this.printSelectedItems(products, selectedItem);
+    this.printSelectedItems(allProductsInfo);
     Console.print("=============증     정===============");
     this.printGiftItems(discountInfo);
     Console.print("======================================");
-    this.printTotalAmount(totalAmount, selectedItem);
-    this.printDiscounts(promotionDiscount, membershipDiscount, finalAmount);
+    this.printTotalAmount(totalCount, totalAmount);
+    this.printDiscounts(promotionDiscount, membershipDiscount);
     this.printFinalAmount(finalAmount);
   }
 }
