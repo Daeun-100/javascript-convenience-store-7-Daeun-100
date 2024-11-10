@@ -1,6 +1,7 @@
 import readLine from "../utils/readLine.js";
 import selectNotNull from "../utils/selectNotNull.js";
 import generateProductForm from "./generateProductForm.js";
+
 function hasSameProductForm(productFormArr, productForm) {
   if (productFormArr.some((form) => form.name === productForm.name)) {
     return true;
@@ -12,7 +13,6 @@ function mergeProductForm(productForm1, productForm2) {
   let promotion1 = productForm1.promotion;
   let promotion2 = productForm2.promotion;
   let promotion = selectNotNull(promotion1, promotion2);
-
   const finalProductForm = {
     ...productForm1,
     ...productForm2,
@@ -54,7 +54,6 @@ export default function getProductFormsArr(productText) {
   while ((line = readLine(productText, i))) {
     let productForm = generateProductForm(line);
     productFormArr = addOrUpdateProductForm(productFormArr, productForm);
-
     i++;
   }
   return productFormArr;

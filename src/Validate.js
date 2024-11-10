@@ -36,13 +36,17 @@ export default class Validate {
     }
   }
 
-  isQuantityEnough(input) {
-    const formattedInput = formatInput(input);
-    const isQuantityEnough = formattedInput.every((inputItem) =>
+  checkQuantity(formattedInput) {
+    return formattedInput.every((inputItem) =>
       this.#products
         .getProduct(inputItem.name)
         .isQuantityEnough(inputItem.quantity)
     );
+  }
+
+  isQuantityEnough(input) {
+    const formattedInput = formatInput(input);
+    const isQuantityEnough = this.checkQuantity(formattedInput);
     if (!isQuantityEnough) {
       throw new Error(
         `[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.`

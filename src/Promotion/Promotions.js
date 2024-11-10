@@ -1,5 +1,5 @@
 import Promotion from "./Promotion.js";
-import { Console } from "@woowacourse/mission-utils";
+
 export default class Promotions {
   #promotions;
   constructor(promotionsArr) {

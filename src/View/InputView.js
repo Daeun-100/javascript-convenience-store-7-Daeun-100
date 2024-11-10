@@ -9,21 +9,28 @@ export default class InputView {
     this.#validate = new Validate(products);
   }
 
+  validateInput(input) {
+    this.#validate.productInputForm(input);
+    this.#validate.isProductExist(input);
+    this.#validate.isQuantityEnough(input);
+  }
+
+  handleError(e, callback) {
+    Console.print(e.message);
+    return callback();
+  }
+
   async readProductsInput() {
-    let input;
     try {
-      input = await Console.readLineAsync(
+      let input = await Console.readLineAsync(
         "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])\n"
       );
       input = input.trim();
-      this.#validate.productInputForm(input);
-      this.#validate.isProductExist(input);
-      this.#validate.isQuantityEnough(input);
+      this.validateInput(input);
+      return input;
     } catch (e) {
-      Console.print(e.message);
-      return this.readProductsInput();
+      return this.handleError(e, this.readProductsInput.bind(this));
     }
-    return input;
   }
 
   async askYesOrNo(message) {
@@ -31,22 +38,19 @@ export default class InputView {
     try {
       input = await Console.readLineAsync(message);
       this.#validate.YesOrNo(input);
+      return input.trim().toUpperCase();
     } catch (e) {
-      Console.print(e.message);
-      return this.askYesOrNo(message);
+      return this.handleError(e, this.askYesOrNo.bind(this, message));
     }
-    return input.trim().toUpperCase();
   }
 
   async confirmAction(type, productName = "", quantity = "") {
     let message;
-
     if (typeof MESSAGES[type] === "function") {
       message = MESSAGES[type](productName, quantity);
     } else {
       message = MESSAGES[type];
     }
-
     return await this.askYesOrNo(message);
   }
 }
