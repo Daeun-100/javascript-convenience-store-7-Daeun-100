@@ -1,4 +1,4 @@
-import DiscountCalculator from "./DiscountCalculatorjs";
+import DiscountCalculator from "./DiscountCalculator.js";
 export default class Receipt {
   #selectedItems;
   #products;

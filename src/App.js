@@ -3,37 +3,68 @@ import InputView from "./View/InputView.js";
 import Products from "./Product/Products.js";
 import Promotions from "./Promotion/Promotions.js";
 import CheckOut from "./CheckOut/CheckOut.js";
-import { Console } from "@woowacourse/mission-utils";
 import FileHandler from "./FileHandler.js";
 import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
+import formatInput from "./utils/formatInput.js";
 
 class App {
-  constructor() {}
-  async run() {
-    const fileHandler = new FileHandler();
-    // 1. 파일 읽기
-    const productsText = fileHandler.readTextFile("./public/products.md");
-    const promotionsText = fileHandler.readTextFile("./public/promotions.md");
+  #fileHandler;
+  #outputView;
+  #inputView;
+  constructor() {
+    this.#fileHandler = new FileHandler();
+    this.#outputView = new OutputView();
+  }
 
-    // 2. 데이터 파싱 및 객체 생성
+  loadFiles() {
+    const productsText = this.#fileHandler.readTextFile("./public/products.md");
+    const promotionsText = this.#fileHandler.readTextFile(
+      "./public/promotions.md"
+    );
+    return { productsText, promotionsText };
+  }
+
+  getProducts() {
+    const { productsText, promotionsText } = this.loadFiles();
+
     const productsFormsArr = getProductFormsArr(productsText);
     const promotionsArr = getPromotionsArr(promotionsText);
     const promotions = new Promotions(promotionsArr);
     const products = new Products(productsFormsArr, promotions);
-    const outputView = new OutputView();
-    const inputView = new InputView(products);
-    // 3. 출력 및 첫 구매 진행
+
+    return products;
+  }
+
+  async executePurchase(products) {
+    this.#outputView.printGreetings();
+    this.#outputView.printProducts(products);
+
+    const input = await this.#inputView.readProductsInput();
+    const selectedItems = formatInput(input);
+
+    const checkOut = new CheckOut(selectedItems, products);
+    return await checkOut.checkout();
+  }
+
+  async executePurchaseLoop(products) {
     let hasAdditionalPurchase;
     do {
-      outputView.printGreetings();
-      outputView.printProducts(products);
-      const input = await inputView.readProductsInput();
-      const checkOut = new CheckOut(input, products);
-      hasAdditionalPurchase = await checkOut.checkout();
+      hasAdditionalPurchase = await this.executePurchase(products);
     } while (hasAdditionalPurchase === "Y");
+  }
+
+  saveUpdatedProducts(products) {
+    const fileHandler = new FileHandler();
     const updatedProductsText = products.getTextProducts();
     fileHandler.writeTextFile("./public/products.md", updatedProductsText);
+  }
+
+  async run() {
+    const products = this.getProducts();
+    this.#inputView = new InputView(products);
+    await this.executePurchaseLoop(products);
+    this.saveUpdatedProducts(products);
   }
 }
 

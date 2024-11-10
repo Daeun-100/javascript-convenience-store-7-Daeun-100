@@ -5,6 +5,7 @@ import { DISCOUNT_INFO } from "../Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
 import Receipt from "./receipt.js";
+import { Console } from "@woowacourse/mission-utils";
 
 export default class CheckOut {
   #selectedItems;
@@ -16,11 +17,11 @@ export default class CheckOut {
   #inputView;
   #outputView;
 
-  constructor(Input, Products) {
+  constructor(selectedItem, products) {
     //input = "[콜라-10],[사이다-3]";
     //formatInput=[{name:콜라, quantity:10}, {name:사이다, quantity:3}]
-    this.#selectedItems = formatInput(Input);
-    this.#products = Products;
+    this.#selectedItems = selectedItem;
+    this.#products = products;
     this.#discountInfo = this.#geratedisCountInfo();
 
     this.#checkoutManager = new CheckoutManager(
@@ -39,7 +40,7 @@ export default class CheckOut {
       this.#discountInfo
     );
 
-    this.#inputView = new InputView();
+    this.#inputView = new InputView(this.#products);
     this.#outputView = new outputView();
   }
 
@@ -58,7 +59,9 @@ export default class CheckOut {
     await this.#checkoutManager.processSelectedItems();
     await this.applyMembershipDiscount();
     this.receipt();
-    return await this.checkForAdditionalPurchase();
+
+    hasAdditionalPurchase = await this.checkForAdditionalPurchase();
+    return hasAdditionalPurchase;
   }
 
   async applyMembershipDiscount() {

@@ -17,7 +17,7 @@ export default class Validate {
   }
 
   productInputForm(input) {
-    const regx = /\[([가-힣]+)-(\d+)\](?:,\[([가-힣]+)-(\d+)\])*/;
+    const regx = /^\[([가-힣]+)-(\d+)\](,\[([가-힣]+)-(\d+)\])*$/;
     if (!regx.test(input)) {
       throw new Error(
         "[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요."

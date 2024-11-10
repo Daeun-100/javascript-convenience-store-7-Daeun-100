@@ -14,7 +14,7 @@ export default class CheckoutManager {
     this.#discountInfo = discountInfo;
 
     this.#promotionManager = new PromotionManager(this.#discountInfo);
-    this.#inputView = new InputView();
+    this.#inputView = new InputView(this.#products);
   }
 
   async processSelectedItems() {
