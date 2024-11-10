@@ -9,6 +9,7 @@ import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
 import path from "path";
 import { Console } from "@woowacourse/mission-utils";
+import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
 
 class App {
   #fileHandler;
@@ -43,8 +44,8 @@ class App {
     this.#outputView.printProducts(products);
 
     const input = await this.#inputView.readProductsInput();
-    const selectedItems = formatInput(input);
-
+    let selectedItems = formatInput(input);
+    selectedItems = mergeDuplicateItems(selectedItems);
     const checkOut = new CheckOut(selectedItems, products);
     return await checkOut.checkout();
   }
