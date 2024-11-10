@@ -59,9 +59,12 @@ class App {
   }
 
   saveUpdatedProducts(products) {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const productsPath = path.join(__dirname, "../public/products.md");
     const fileHandler = new FileHandler();
     const updatedProductsText = products.getTextProducts();
-    fileHandler.writeTextFile("./public/products.md", updatedProductsText);
+    fileHandler.writeTextFile(productsPath, updatedProductsText);
   }
 
   async run() {
