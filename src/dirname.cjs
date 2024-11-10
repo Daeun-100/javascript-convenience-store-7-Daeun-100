@@ -1,1 +1,1 @@
-module.exports = { __dirname };
+export default module.exports = { __dirname };
