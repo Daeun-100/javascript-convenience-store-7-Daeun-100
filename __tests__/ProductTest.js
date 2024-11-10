@@ -1,6 +1,6 @@
 import Product from "../src/Product.js";
 import Products from "../src/Products.js";
-import getProductFormsArr from "../src/getProductsForm.js";
+import getProductFormsArr from "../src/getProductFormsArr.js";
 import generateProductForm from "../src/generateProductForm.js";
 const mockPromotions = {
   map: jest.fn((name) => {

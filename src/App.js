@@ -4,7 +4,7 @@ import Products from "./Products.js";
 import Promotions from "./Promotions.js";
 import CheckOut from "./CheckOut.js";
 import FileHandler from "./FileHandler.js";
-import getProductFormsArr from "./getProductsForm.js";
+import getProductFormsArr from "./getProductFormsArr.js";
 import getPromotionsArr from "./getPromotionsArr.js";
 import formatInput from "./formatInput.js";
 import path from "path";
@@ -21,18 +21,17 @@ class App {
   }
 
   loadFiles() {
-    // const productsPath = path.join(process.cwd(), "public/products.md");
-    // const promotionsPath = path.join(process.cwd(), "public/promotions.md");
-    // const { __dirname } = dirname;
-    // const productsPath = path.join(__dirname, "../public/products.md");
-    // const promotionsPath = path.join(__dirname, "../public/promotions.md");
-    const productsPath = "public/products.md";
-    const promotionsPath = "public/promotions.md";
+    const productsPath = path.join(process.cwd(), "public/products.md");
+    const promotionsPath = path.join(process.cwd(), "public/promotions.md");
+
     const productsText = this.#fileHandler.readTextFile(productsPath);
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
     return { productsText, promotionsText };
   }
-
+  pathTest() {
+    const productsPath = path.join(process.cwd(), "public/products.md");
+    return productsPath;
+  }
   getProducts() {
     const { productsText, promotionsText } = this.loadFiles();
 
