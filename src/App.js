@@ -44,7 +44,7 @@ class App {
     this.#outputView.printGreetings();
     this.#outputView.printProducts(products);
 
-    const input = await this.#inputView.readProductsInput();
+    let input = await this.#inputView.readProductsInput();
 
     const selectedItems = formatInput(input);
     const checkOut = new CheckOut(selectedItems, products);
