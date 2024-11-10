@@ -7,9 +7,7 @@ import FileHandler from "./FileHandler.js";
 import getProductFormsArr from "./Product/getProductsForm.js";
 import getPromotionsArr from "./Promotion/getPromotionsArr.js";
 import formatInput from "./utils/formatInput.js";
-import { fileURLToPath } from "url";
 import path from "path";
-import { Console } from "@woowacourse/mission-utils";
 
 class App {
   #fileHandler;
@@ -21,10 +19,8 @@ class App {
   }
 
   loadFiles() {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const productsPath = path.join(__dirname, "../public/products.md");
-    const promotionsPath = path.join(__dirname, "../public/promotions.md");
+    const productsPath = path.join(process.cwd(), "public/products.md");
+    const promotionsPath = path.join(process.cwd(), "public/promotions.md");
     const productsText = this.#fileHandler.readTextFile(productsPath);
     const promotionsText = this.#fileHandler.readTextFile(promotionsPath);
     return { productsText, promotionsText };
@@ -46,7 +42,6 @@ class App {
     this.#outputView.printProducts(products);
 
     const input = await this.#inputView.readProductsInput();
-    Console.print(input);
     const selectedItems = formatInput(input);
     const checkOut = new CheckOut(selectedItems, products);
     return await checkOut.checkout();
@@ -60,9 +55,7 @@ class App {
   }
 
   saveUpdatedProducts(products) {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const productsPath = path.join(__dirname, "../public/products.md");
+    const productsPath = path.join(process.cwd(), "public/products.md");
     const fileHandler = new FileHandler();
     const updatedProductsText = products.getTextProducts();
     fileHandler.writeTextFile(productsPath, updatedProductsText);
