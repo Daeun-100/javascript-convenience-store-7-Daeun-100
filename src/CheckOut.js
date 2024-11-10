@@ -4,7 +4,7 @@ import formatInput from "./formatInput.js";
 import { DISCOUNT_INFO } from "./Constants.js";
 import CheckoutManager from "./CheckoutManager.js";
 import DiscountCalculator from "./DiscountCalculator.js";
-import Receipt from "./receipt.js";
+import Receipt from ".Receipt.js";
 import { Console } from "@woowacourse/mission-utils";
 
 export default class CheckOut {
@@ -22,7 +22,7 @@ export default class CheckOut {
     //formatInput=[{name:콜라, quantity:10}, {name:사이다, quantity:3}]
     this.#selectedItems = selectedItem;
     this.#products = products;
-    this.#discountInfo = this.#geratedisCountInfo();
+    this.#discountInfo = this.#generatedisCountInfo();
 
     this.#checkoutManager = new CheckoutManager(
       this.#selectedItems,
@@ -44,7 +44,7 @@ export default class CheckOut {
     this.#outputView = new outputView();
   }
 
-  #geratedisCountInfo() {
+  #generatedisCountInfo() {
     const discountInfo = JSON.parse(JSON.stringify(DISCOUNT_INFO));
 
     this.#selectedItems.forEach((inputItem) => {
