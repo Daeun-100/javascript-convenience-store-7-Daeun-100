@@ -64,9 +64,7 @@ class App {
   }
 
   saveUpdatedProducts(products) {
-    // const productsPath = path.join(process.cwd(), "public/products.md");
-    const { __dirname } = dirname;
-    const productsPath = path.join(__dirname, "../public/products.md");
+    const productsPath = path.join(process.cwd(), "public/products.md");
     const fileHandler = new FileHandler();
     const updatedProductsText = products.getTextProducts();
     fileHandler.writeTextFile(productsPath, updatedProductsText);
@@ -76,7 +74,7 @@ class App {
     const products = this.getProducts();
     this.#inputView = new InputView(products);
     await this.executePurchaseLoop(products);
-    // this.saveUpdatedProducts(products);
+    this.saveUpdatedProducts(products);
   }
 }
 
