@@ -1,5 +1,5 @@
-import formatInput from "./formatInput.js";
-import mergeDuplicateItems from "./mergeDuplicateItems.js";
+import formatInput from "./utils/formatInput.js";
+import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
 export default class Validate {
   #products;
 
@@ -14,7 +14,7 @@ export default class Validate {
   }
 
   productInputForm(input) {
-    const regx = /^\[([가-힣]+)-([1-9]\d*)\](,\[([가-힣]+)-(\d+)\])*$/;
+    const regx = /^\[([가-힣]+)-(\d+)\](,\[([가-힣]+)-(\d+)\])*$/;
     if (!regx.test(input)) {
       throw new Error(
         "[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요."

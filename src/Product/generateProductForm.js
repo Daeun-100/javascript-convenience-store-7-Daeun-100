@@ -1,4 +1,4 @@
-import lineToArray from "./lineToArray.js";
+import lineToArray from "../utils/lineToArray.js";
 
 function chooseQuantityType(promotion) {
   if (promotion === null) {

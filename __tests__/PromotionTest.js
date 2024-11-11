@@ -1,6 +1,6 @@
-import Promotion from "../src/Promotion.js";
-import Promotions from "../src/Promotions.js";
-import getPromotionsArr from "../src/getPromotionsArr.js";
+import Promotion from "../src/Promotion/Promotion.js";
+import Promotions from "../src//Promotion/Promotions.js";
+import getPromotionsArr from "../src/Promotion/getPromotionsArr.js";
 describe("Promotion test", () => {
   const promotion = new Promotion({
     name: "반짝할인",

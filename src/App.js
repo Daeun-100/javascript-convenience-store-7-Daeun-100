@@ -1,15 +1,15 @@
-import OutputView from "./OutputView.js";
-import InputView from "./InputView.js";
-import Products from "./Products.js";
-import Promotions from "./Promotions.js";
-import CheckOut from "./CheckOut.js";
-import FileHandler from "./FileHandler.js";
-import getProductFormsArr from "./getProductFormsArr.js";
-import getPromotionsArr from "./getPromotionsArr.js";
-import formatInput from "./formatInput.js";
-import path from "path";
 import { Console } from "@woowacourse/mission-utils";
-import mergeDuplicateItems from "./mergeDuplicateItems.js";
+import path from "path";
+import CheckOut from "./CheckOut/CheckOut.js";
+import FileHandler from "./utils/FileHandler.js";
+import formatInput from "./utils/formatInput.js";
+import getProductFormsArr from "./Product/getProductFormsArr.js";
+import getPromotionsArr from "./Promotion/getPromotionsArr.js";
+import InputView from "./View/InputView.js";
+import mergeDuplicateItems from "./utils/mergeDuplicateItems.js";
+import OutputView from "./View/OutputView.js";
+import Products from "./Product/Products.js";
+import Promotions from "./Promotion/Promotions.js";
 
 class App {
   #fileHandler;

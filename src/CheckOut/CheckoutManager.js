@@ -1,4 +1,4 @@
-import InputView from "./InputView.js";
+import InputView from "../View/InputView.js";
 import PromotionManager from "./PromotionManager.js";
 export default class CheckoutManager {
   #selectedItems;

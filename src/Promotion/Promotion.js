@@ -1,4 +1,4 @@
-import { DateTimes, Console } from "@woowacourse/mission-utils";
+import { DateTimes } from "@woowacourse/mission-utils";
 export default class Promotion {
   #name;
   #buy;

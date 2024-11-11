@@ -1,5 +1,5 @@
-import readLine from "./readLine.js";
-import selectNotNull from "./selectNotNull.js";
+import readLine from "../utils/readLine.js";
+import selectNotNull from "../utils/selectNotNull.js";
 import generateProductForm from "./generateProductForm.js";
 
 function hasSameProductForm(productFormArr, productForm) {
